@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:todo/style/my_theme.dart';
+import 'package:provider/provider.dart';
+import 'package:todo/provider/themeProvider.dart';
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:todo/tabs/settings_tab.dart';
 import 'package:todo/tabs/tasks_tab.dart';
@@ -16,10 +17,11 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Widget> tabs = const[TasksTab(),SettingsTab(),];
   @override
   Widget build(BuildContext context) {
+    var themeProvider = Provider.of<ThemeProvider>(context);
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("assets/light_bg.png"),
+          image: themeProvider.themeMode == ThemeMode.light ? AssetImage("assets/light_bg.png"):AssetImage("assets/dark_bg.png"),
           fit: BoxFit.fill,
         ),
       ),

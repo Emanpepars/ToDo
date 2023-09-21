@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todo/home_layout/home_layout.dart';
+import 'package:todo/provider/themeProvider.dart';
 import 'package:todo/style/my_theme.dart';
 import 'package:todo/tabs/settings_tab.dart';
 import 'package:todo/tabs/tasks_tab.dart';
-import '';
 
 void main() {
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider(
+      create: (BuildContext context) => ThemeProvider(),
+      child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -15,6 +18,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    var themeProvider = Provider.of<ThemeProvider>(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       initialRoute: HomeScreen.routeName,
@@ -25,6 +29,7 @@ class MyApp extends StatelessWidget {
       },
       theme: MyThemeData.lightTheme,
       darkTheme: MyThemeData.darkTheme,
+      themeMode: themeProvider.themeMode,
     );
   }
 }

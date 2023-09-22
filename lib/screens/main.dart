@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo/firebase_options.dart';
 import 'package:todo/home_layout/home_layout.dart';
+import 'package:todo/provider/init_user_provider.dart';
 import 'package:todo/provider/themeProvider.dart';
 import 'package:todo/screens/edit_screen.dart';
+import 'package:todo/screens/login_screen.dart';
+import 'package:todo/screens/registerscreen.dart';
 import 'package:todo/screens/tabs/settings_tab.dart';
 import 'package:todo/screens/tabs/tasks_tab.dart';
 import 'package:todo/style/my_theme.dart';
@@ -14,9 +17,15 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(ChangeNotifierProvider(
-      create: (BuildContext context) => ThemeProvider(),
-      child: const MyApp()));
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => ThemeProvider()),
+        ChangeNotifierProvider(create: (context) => InitUserProvider()),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -26,14 +35,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var themeProvider = Provider.of<ThemeProvider>(context);
+    var initUserProvider = Provider.of<InitUserProvider>(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: HomeScreen.routeName,
+      initialRoute: initUserProvider.firebaseUser!= null? HomeScreen.routeName :RegisterScreen.routeName ,
       routes: {
-        HomeScreen.routeName: (context)=> const HomeScreen(),
-        TasksTab.routeName: (context)=> const TasksTab(),
-        SettingsTab.routeName: (context)=> const SettingsTab(),
+        HomeScreen.routeName: (context) => const HomeScreen(),
+        TasksTab.routeName: (context) => const TasksTab(),
+        SettingsTab.routeName: (context) => const SettingsTab(),
         EditScreen.routeName: (context) => EditScreen(),
+        LoginScreen.routeName: (context) => LoginScreen(),
+        RegisterScreen.routeName: (context) => RegisterScreen(),
       },
       theme: MyThemeData.lightTheme,
       darkTheme: MyThemeData.darkTheme,
@@ -41,4 +53,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-

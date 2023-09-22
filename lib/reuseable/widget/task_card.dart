@@ -48,6 +48,7 @@ class _TaskCardState extends State<TaskCard> {
                     context,
                     EditScreen.routeName,
                   arguments: TaskModel(
+                    userId: widget.task.userId,
                     id: widget.task.id,
                       title: widget.task.title,
                       description: widget.task.description,

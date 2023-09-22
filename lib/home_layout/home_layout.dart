@@ -7,7 +7,7 @@ import 'package:todo/screens/tabs/settings_tab.dart';
 import 'package:todo/screens/tabs/tasks_tab.dart';
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
-  static const String routeName = "login";
+  static const String routeName = "home";
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();

@@ -161,6 +161,7 @@ class _EditScreenState extends State<EditScreen> {
                                     description: descriptionController.text,
                                     state: false,
                                     date: selected.millisecondsSinceEpoch,
+                                    userId: args.userId,
                                   );
                                   FireBaseFunctions.updateTask(task.id, task)
                                       .then(

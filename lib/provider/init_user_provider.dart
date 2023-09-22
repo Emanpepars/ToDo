@@ -18,8 +18,8 @@ class InitUserProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  void signOut() async {
-    await FirebaseAuth.instance.signOut();
+  void signOut()  {
+     FirebaseAuth.instance.signOut();
     notifyListeners();
   }
 

@@ -5,6 +5,7 @@ import 'package:todo/firebase/firebase_functions.dart';
 import 'package:todo/model/task_model.dart';
 import 'package:todo/provider/init_user_provider.dart';
 import 'package:todo/reuseable/widget/task_card.dart';
+import 'package:todo/screens/login_screen.dart';
 
 class TasksTab extends StatefulWidget {
   const TasksTab({Key? key}) : super(key: key);
@@ -27,14 +28,14 @@ class _TasksTabState extends State<TasksTab> {
           child: Row(
             children: [
               Text(
-                "To Do List",
+                "t ${initUserProvider.userModel?.email}",
                 style: Theme.of(context).textTheme.headlineLarge,
               ),
               const Spacer(),
               IconButton(
                 onPressed: () {
                   initUserProvider.signOut();
-                  Navigator.pop(context);
+                  Navigator.pushReplacementNamed(context,LoginScreen.routeName);
                 },
                 icon: const Icon(
                   Icons.logout,

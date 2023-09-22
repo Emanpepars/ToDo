@@ -65,7 +65,7 @@ class RegisterScreen extends StatelessWidget {
                       passwordController.text,
                         (){
                           initUserProvider.initUser();
-                          Navigator.pushNamed(context, LoginScreen.routeName);
+                          Navigator.pushReplacementNamed(context, LoginScreen.routeName);
                         },
                     );
                   }
@@ -80,7 +80,7 @@ class RegisterScreen extends StatelessWidget {
                   const Text("already have account?"),
                   TextButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, LoginScreen.routeName);
+                      Navigator.pushReplacementNamed(context, LoginScreen.routeName);
                     },
                     child: const Text(
                       "Sign in",

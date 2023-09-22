@@ -3,9 +3,10 @@ import 'package:provider/provider.dart';
 import 'package:todo/firebase_options.dart';
 import 'package:todo/home_layout/home_layout.dart';
 import 'package:todo/provider/themeProvider.dart';
+import 'package:todo/screens/edit_screen.dart';
+import 'package:todo/screens/tabs/settings_tab.dart';
+import 'package:todo/screens/tabs/tasks_tab.dart';
 import 'package:todo/style/my_theme.dart';
-import 'package:todo/tabs/settings_tab.dart';
-import 'package:todo/tabs/tasks_tab.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
         HomeScreen.routeName: (context)=> const HomeScreen(),
         TasksTab.routeName: (context)=> const TasksTab(),
         SettingsTab.routeName: (context)=> const SettingsTab(),
+        EditScreen.routeName: (context) => EditScreen(),
       },
       theme: MyThemeData.lightTheme,
       darkTheme: MyThemeData.darkTheme,

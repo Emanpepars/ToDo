@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:todo/firebase/firebase_functions.dart';
 import 'package:todo/model/task_model.dart';
+import 'package:todo/screens/edit_screen.dart';
 import 'package:todo/style/my_theme.dart';
 
 class TaskCard extends StatefulWidget {
@@ -43,8 +44,18 @@ class _TaskCardState extends State<TaskCard> {
             SlidableAction(
               autoClose: true,
               onPressed: (context) {
-                FireBaseFunctions.updateTask(widget.task.id, widget.task);
-              },
+                Navigator.pushNamed(
+                    context,
+                    EditScreen.routeName,
+                  arguments: TaskModel(
+                    id: widget.task.id,
+                      title: widget.task.title,
+                      description: widget.task.description,
+                      state: widget.task.state,
+                      date: widget.task.date,
+                  ),
+                );
+                },
               backgroundColor: Colors.green,
               foregroundColor: Colors.white,
               icon: Icons.edit,

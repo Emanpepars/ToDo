@@ -3,8 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:todo/provider/themeProvider.dart';
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:todo/reuseable/widget/addNewTask.dart';
-import 'package:todo/tabs/settings_tab.dart';
-import 'package:todo/tabs/tasks_tab.dart';
+import 'package:todo/screens/tabs/settings_tab.dart';
+import 'package:todo/screens/tabs/tasks_tab.dart';
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
   static const String routeName = "login";

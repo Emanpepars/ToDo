@@ -1,8 +1,8 @@
 import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:todo/firebase/firebase_functions.dart';
+import 'package:todo/model/task_model.dart';
 import 'package:todo/reuseable/widget/task_card.dart';
-import 'package:todo/style/my_theme.dart';
 
 class TasksTab extends StatefulWidget {
   const TasksTab({Key? key}) : super(key: key);
@@ -39,17 +39,37 @@ class _TasksTabState extends State<TasksTab> {
             });
           },
         ),
-        const SizedBox(height: 10,),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 5,),
-            child: ListView.builder(
-              itemBuilder: (context, index) => const TaskCard(),
-              itemCount: 8,
-            ),
-          ),
+        const SizedBox(
+          height: 10,
         ),
+        StreamBuilder(
+            stream: FireBaseFunctions.getTasksFromFireStore(dateTime),
+            builder:
+                (context, snapshot) {
+              if (snapshot.hasError) {
+                return const Text('Something went wrong');
+              }
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
 
+              List<TaskModel> tasks = snapshot.data?.docs.map((task) => task.data()).toList() ?? [];
+              if(tasks.isEmpty){
+                return const Center(child: Text("No tasks"));
+              }
+               return Expanded(
+                 child: Padding(
+                   padding: const EdgeInsets.all(8.0),
+                   child: ListView.builder(
+                     itemBuilder: (context, index) {
+                       return TaskCard(tasks[index]);
+                     },
+                     itemCount: tasks.length,
+                   ),
+                 ),
+               );
+            },
+        ),
       ],
     );
   }

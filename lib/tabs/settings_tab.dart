@@ -27,30 +27,52 @@ class SettingsTab extends StatelessWidget {
             ),
             Text(
               "Language",
-              style: Theme.of(context).textTheme.bodyLarge,
+              style: Theme.of(context).textTheme.headlineLarge!.copyWith(fontSize: 20, color: Colors.black),
             ),
             const SizedBox(
               height: 25,
             ),
-            InkWell(
-              onTap: () {
-                showModalBottomSheet(
-                    context: context,
-                    builder: (context) => Container(
-                          color: Colors.red,
-                        ));
-              },
-              child: Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  border: Border.all(),
+
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(
+                  color: Colors.blue,
+                  width: 1,
                 ),
-                padding: const EdgeInsets.all(15),
-                child: Text(
-                  "English",
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
+                borderRadius: BorderRadius.circular(15),
+              ),
+              padding: const EdgeInsets.all(5),
+              child: DropdownButton(
+                  iconDisabledColor: Colors.blue,
+                  iconEnabledColor: Colors.blue,
+                  iconSize: 30,
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                underline: const SizedBox(),
+                isExpanded: true,
+                value: themeProvider.themeMode,
+                onChanged: (ThemeMode? newTheme) {
+                  if (newTheme != null) {
+                    themeProvider.changeTheme(newTheme);
+                  }
+                },
+                items: <DropdownMenuItem<ThemeMode>>[
+                  DropdownMenuItem<ThemeMode>(
+                    value: ThemeMode.light,
+                    child: Text(
+                      "English",
+                      style: themeProvider.themeMode == ThemeMode.light ?Theme.of(context).textTheme.bodyLarge:Theme.of(context).textTheme.bodyMedium,
+                    ),
+                  ),
+                  DropdownMenuItem<ThemeMode>(
+                    value: ThemeMode.dark,
+                    child: Text(
+                      "arabic",
+                      style: themeProvider.themeMode == ThemeMode.dark ?Theme.of(context).textTheme.bodyLarge:Theme.of(context).textTheme.bodyMedium,
+
+                    ),
+                  ),
+                ],
               ),
             ),
             const SizedBox(
@@ -58,63 +80,51 @@ class SettingsTab extends StatelessWidget {
             ),
             Text(
               "Theming",
-              style: Theme.of(context).textTheme.bodyLarge,
+              style: Theme.of(context).textTheme.headlineLarge!.copyWith(fontSize: 20, color: Colors.black),
             ),
             const SizedBox(
               height: 25,
             ),
-            InkWell(
-              onTap: () {
-                showModalBottomSheet(
-                  context: context,
-                  builder: (context) =>  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        InkWell(
-                          onTap:(){
-                            themeProvider.changeTheme(ThemeMode.light);
-                            Navigator.pop(context);
-                          },
-                          child: Text(
-                            "Light",
-                            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                              color: themeProvider.themeMode == ThemeMode.light ? Colors.green: Colors.black,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        InkWell(
-                          onTap:(){
-                            themeProvider.changeTheme(ThemeMode.dark);
-                            Navigator.pop(context);
-
-                          },
-                          child: Text(
-                            "Dark",
-                            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                              color: themeProvider.themeMode == ThemeMode.dark ? Colors.green: Colors.black,
-                            ),
-                          ),
-                        ),
-                      ],
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(
+                  color: Colors.blue,
+                  width: 1,
+                ),
+                borderRadius: BorderRadius.circular(15),
+              ),
+              padding: const EdgeInsets.all(5),
+              child: DropdownButton(
+                iconDisabledColor: Colors.blue,
+                iconEnabledColor: Colors.blue,
+                iconSize: 30,
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                underline: const SizedBox(),
+                isExpanded: true,
+                value: themeProvider.themeMode,
+                onChanged: (ThemeMode? newTheme) {
+                  if (newTheme != null) {
+                    themeProvider.changeTheme(newTheme);
+                  }
+                },
+                items: <DropdownMenuItem<ThemeMode>>[
+                  DropdownMenuItem<ThemeMode>(
+                    value: ThemeMode.light,
+                    child: Text(
+                      "Light",
+                      style: themeProvider.themeMode == ThemeMode.light ?Theme.of(context).textTheme.bodyLarge:Theme.of(context).textTheme.bodyMedium,
                     ),
                   ),
-                );
-              },
-              child: Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  border: Border.all(),
-                ),
-                padding: const EdgeInsets.all(15),
-                child: Text(
-                  themeProvider.themeMode == ThemeMode.light ?"Light" : "Dark",
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
+                  DropdownMenuItem<ThemeMode>(
+                    value: ThemeMode.dark,
+                    child: Text(
+                      "Dark",
+                      style: themeProvider.themeMode == ThemeMode.dark ?Theme.of(context).textTheme.bodyLarge:Theme.of(context).textTheme.bodyMedium,
+
+                    ),
+                  ),
+                ],
               ),
             ),
           ],

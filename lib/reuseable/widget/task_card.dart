@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:todo/firebase/firebase_functions.dart';
+import 'package:todo/model/task_model.dart';
 import 'package:todo/style/my_theme.dart';
 
-class TaskCard extends StatelessWidget {
-  const TaskCard({Key? key}) : super(key: key);
+class TaskCard extends StatefulWidget {
+  TaskModel task;
+  TaskCard(this.task, {super.key});
 
+  @override
+  State<TaskCard> createState() => _TaskCardState();
+}
+
+class _TaskCardState extends State<TaskCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -17,11 +25,13 @@ class TaskCard extends StatelessWidget {
         startActionPane: ActionPane(
           extentRatio: .4,
           motion: const DrawerMotion(),
-          children:  [
+          children: [
             SlidableAction(
               autoClose: true,
-              onPressed: (context){},
-              backgroundColor: Color(0xFFFE4A49),
+              onPressed: (context) {
+                FireBaseFunctions.deleteTask(widget.task.id);
+              },
+              backgroundColor: const Color(0xFFFE4A49),
               borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(12),
                 bottomLeft: Radius.circular(12),
@@ -32,7 +42,9 @@ class TaskCard extends StatelessWidget {
             ),
             SlidableAction(
               autoClose: true,
-              onPressed: (context){},
+              onPressed: (context) {
+                FireBaseFunctions.updateTask(widget.task.id, widget.task);
+              },
               backgroundColor: Colors.green,
               foregroundColor: Colors.white,
               icon: Icons.edit,
@@ -40,32 +52,67 @@ class TaskCard extends StatelessWidget {
             ),
           ],
         ),
-
         child: Padding(
-          padding: const EdgeInsets.only(left: 20,top: 25.0,bottom: 25,right: 25 ),
+          padding:
+              const EdgeInsets.only(left: 20, top: 25.0, bottom: 25, right: 25),
           child: Row(
             children: [
               Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(
-                      5.0), // Adjust the radius as needed
-                  color: MyThemeData.lightColor,
+                  borderRadius:
+                      BorderRadius.circular(5.0), // Adjust the radius as needed
+                  color: widget.task.state
+                      ? MyThemeData.greenColor
+                      : MyThemeData.lightColor,
                 ),
                 width: 4,
-                height: MediaQuery.of(context).size.height*.08,
+                height: MediaQuery.of(context).size.height * .08,
                 child: const VerticalDivider(),
               ),
-              const SizedBox(width: 25,),
+              const SizedBox(
+                width: 25,
+              ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('hello world',style: Theme.of(context).textTheme.bodyLarge,),
-                  const SizedBox(height: 5,),
-                  Text('data',style: Theme.of(context).textTheme.bodySmall,),
+                  Text(
+                    widget.task.title,
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          color: widget.task.state
+                              ? MyThemeData.greenColor
+                              : MyThemeData.lightColor,
+                        ),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Text(
+                    widget.task.description,
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
                 ],
               ),
               const Spacer(),
-              ElevatedButton(onPressed: (){}, child: const Icon(Icons.done),),
+              widget.task.state
+                  ? Text(
+                      "Done!",
+                      style:
+                          Theme.of(context).textTheme.headlineLarge!.copyWith(
+                                color: Colors.green,
+                              ),
+                    )
+                  : ElevatedButton(
+                      onPressed: () {
+                        setState(
+                          () {
+                            widget.task.state = true;
+                            FireBaseFunctions.updateTask(
+                                widget.task.id, widget.task);
+                          },
+                        );
+                      },
+                      child: const Icon(Icons.done),
+                    ),
             ],
           ),
         ),

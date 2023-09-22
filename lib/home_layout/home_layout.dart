@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo/provider/themeProvider.dart';
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
+import 'package:todo/reuseable/widget/addNewTask.dart';
 import 'package:todo/tabs/settings_tab.dart';
 import 'package:todo/tabs/tasks_tab.dart';
 class HomeScreen extends StatefulWidget {
@@ -21,7 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: themeProvider.themeMode == ThemeMode.light ? AssetImage("assets/light_bg.png"):AssetImage("assets/dark_bg.png"),
+          image: themeProvider.themeMode == ThemeMode.light ? const AssetImage("assets/light_bg.png"):const AssetImage("assets/dark_bg.png"),
           fit: BoxFit.fill,
         ),
       ),
@@ -30,16 +31,34 @@ class _HomeScreenState extends State<HomeScreen> {
           extendBody: true,
           body: tabs[_bottomNavIndex],
               floatingActionButton: FloatingActionButton(
-                onPressed: () {  },
+                onPressed: () {
+                  showModalBottomSheet(
+                    isScrollControlled: true,
+                      context: context,
+                      builder: (context) {
+                        return Padding(
+                          padding:  EdgeInsets.only(
+                            bottom: MediaQuery.of(context).viewInsets.bottom,
+                          ),
+                          child: const AddNewTask(),
+                        );
+                      }
+                  );
+                },
+                shape: const StadiumBorder(
+                    side: BorderSide(
+                      color: Colors.white,
+                      width: 4,
+                    ),),
                 child:const Icon(Icons.add),
                 //params
               ),
               floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
               bottomNavigationBar: AnimatedBottomNavigationBar(
-                icons: const [Icons.menu, Icons.settings_outlined],
+                icons: const [Icons.backup_table_sharp, Icons.settings_outlined],
                 activeIndex: _bottomNavIndex,
                 gapLocation: GapLocation.center,
-                notchSmoothness: NotchSmoothness.smoothEdge,
+                notchSmoothness: NotchSmoothness.defaultEdge,
                 onTap: (index) => setState(() => _bottomNavIndex = index), //other params
               ),
         ),

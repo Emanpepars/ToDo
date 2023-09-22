@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:todo/firebase_options.dart';
 import 'package:todo/home_layout/home_layout.dart';
 import 'package:todo/provider/themeProvider.dart';
 import 'package:todo/style/my_theme.dart';
 import 'package:todo/tabs/settings_tab.dart';
 import 'package:todo/tabs/tasks_tab.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(ChangeNotifierProvider(
       create: (BuildContext context) => ThemeProvider(),
       child: const MyApp()));

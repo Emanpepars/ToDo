@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:todo/firebase/firebase_functions.dart';
 import 'package:todo/model/task_model.dart';
 import 'package:todo/provider/init_user_provider.dart';
-import 'package:todo/reuseable/widget/task_card.dart';
+import 'package:todo/reusable/widget/task_card.dart';
 import 'package:todo/screens/login_screen.dart';
 
 class TasksTab extends StatefulWidget {

@@ -3,6 +3,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:todo/firebase/firebase_functions.dart';
 import 'package:todo/model/task_model.dart';
 import 'package:todo/screens/edit_screen.dart';
+import 'package:todo/screens/edit_task_Screen.dart';
 import 'package:todo/style/my_theme.dart';
 
 class TaskCard extends StatefulWidget {
@@ -46,7 +47,7 @@ class _TaskCardState extends State<TaskCard> {
               onPressed: (context) {
                 Navigator.pushNamed(
                     context,
-                    EditScreen.routeName,
+                    EditTaskScreen.routeName,
                   arguments: TaskModel(
                     userId: widget.task.userId,
                     id: widget.task.id,

@@ -98,7 +98,7 @@ class _EditScreenState extends State<EditScreen> {
 
                                 hintText: args.title,
                                 hintStyle:
-                                    Theme.of(context).textTheme.titleSmall,
+                                Theme.of(context).textTheme.titleSmall,
 
                                 // labelStyle: Theme.of(context).textTheme.titleSmall,
                               ),
@@ -123,7 +123,7 @@ class _EditScreenState extends State<EditScreen> {
                                 ),
                                 hintText: args.description,
                                 hintStyle:
-                                    Theme.of(context).textTheme.titleSmall,
+                                Theme.of(context).textTheme.titleSmall,
                               ),
                             ),
                             const SizedBox(
@@ -165,7 +165,7 @@ class _EditScreenState extends State<EditScreen> {
                                   );
                                   FireBaseFunctions.updateTask(task.id, task)
                                       .then(
-                                    (value) => Navigator.pop(context),
+                                        (value) => Navigator.pop(context),
                                   );
                                 }
                               },

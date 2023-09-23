@@ -7,6 +7,7 @@ import 'package:todo/provider/init_user_provider.dart';
 import 'package:todo/provider/themeProvider.dart';
 import 'package:todo/screens/add_task_screen.dart';
 import 'package:todo/screens/edit_screen.dart';
+import 'package:todo/screens/edit_task_Screen.dart';
 import 'package:todo/screens/login_screen.dart';
 import 'package:todo/screens/registerscreen.dart';
 import 'package:todo/screens/tabs/settings_tab.dart';
@@ -52,8 +53,9 @@ class MyApp extends StatelessWidget {
         EditScreen.routeName: (context) => EditScreen(),
         LoginScreen.routeName: (context) => LoginScreen(),
         RegisterScreen.routeName: (context) => RegisterScreen(),
-        TasksScreen.routeName: (context) => TasksScreen(),
-        AddTaskScreen.routeName: (context) => AddTaskScreen(),
+        TasksScreen.routeName: (context) => const TasksScreen(),
+        AddTaskScreen.routeName: (context) => const AddTaskScreen(),
+        EditTaskScreen.routeName: (context)=> const EditTaskScreen(),
       },
       theme: MyThemeData.lightTheme,
       darkTheme: MyThemeData.darkTheme,

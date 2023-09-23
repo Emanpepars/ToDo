@@ -3,11 +3,11 @@ import 'package:google_fonts/google_fonts.dart';
 
 class CuTextField extends StatelessWidget {
   TextEditingController? controller;
-  String title;
+  String? title;
   Widget? suffixIcon;
   String? Function(String?)? validator;
 
-  CuTextField({super.key, this.controller,required this.title , this.suffixIcon , this.validator,});
+  CuTextField({super.key, this.controller, this.title , this.suffixIcon , this.validator,});
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -99,10 +99,10 @@ class _CuDropState extends State<CuDrop> {
         ),
       ),
       padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 10),
-
       child: DropdownButton(
+        focusColor: Colors.transparent,
         iconSize: 30,
-        underline: SizedBox(),
+        underline: const SizedBox(),
         isExpanded: true,
         value: _selectedValue,
         onChanged: (String? newValue) {
@@ -110,19 +110,34 @@ class _CuDropState extends State<CuDrop> {
             _selectedValue = newValue;
           });
         },
-        items: widget.item!.map((String value) {
-          return DropdownMenuItem(
-            value: value,
+        items: [
+          // Add "None" as the initial value
+          DropdownMenuItem(
+            value: "None",
             child: Text(
-              value,
-               style: GoogleFonts.quicksand(
+              "None",
+              style: GoogleFonts.quicksand(
                 fontSize: 12,
                 color: Colors.black,
-                fontWeight: FontWeight.w900
+                fontWeight: FontWeight.w900,
+              ),
             ),
-            ),
-          );
-        }).toList(),
+          ),
+          // Use spread operator to include items from widget.item
+          ...widget.item!.map((String value) {
+            return DropdownMenuItem(
+              value: value,
+              child: Text(
+                value,
+                style: GoogleFonts.quicksand(
+                  fontSize: 12,
+                  color: Colors.black,
+                  fontWeight: FontWeight.w900,
+                ),
+              ),
+            );
+          }).toList(),
+        ],
       ),
     );
   }

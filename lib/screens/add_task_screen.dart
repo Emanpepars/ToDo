@@ -4,17 +4,20 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:todo/firebase/firebase_functions.dart';
 import 'package:todo/model/task_model.dart';
-import 'package:todo/reuseable/widget/cu_text_form_field.dart';
+import 'package:todo/reusable//widget/cu_text_form_field.dart';
 
 class AddTaskScreen extends StatefulWidget {
-  AddTaskScreen({Key? key}) : super(key: key);
+  const AddTaskScreen({Key? key}) : super(key: key);
   static const String routeName = "addTaskScreen";
+
 
   @override
   State<AddTaskScreen> createState() => _AddTaskScreenState();
 }
 
 class _AddTaskScreenState extends State<AddTaskScreen> {
+  late TimeOfDay _endTime; // Declare _endTime as a late variable
+  late TimeOfDay _startTime; // Declare _endTime as a late variable
   var selected = DateUtils.dateOnly(
     DateTime.now(),
   );
@@ -26,10 +29,20 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
     Colors.green,
     Colors.blue,
   ];
+
   var formKey = GlobalKey<FormState>();
   TextEditingController titleController = TextEditingController();
-
   TextEditingController noteController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    var now = DateTime.now();
+    _endTime = TimeOfDay(hour: now.hour, minute: now.minute);
+    _startTime = TimeOfDay(hour: now.hour, minute: now.minute);
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -148,10 +161,11 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                             height: 10,
                           ),
                           CuTime(
-                            "23.56 Am",
+                            _startTime.format(context).toString(),
                             FontAwesomeIcons.clock,
                             width: MediaQuery.of(context).size.width * .44,
                             height: 50,
+                            onTap: _showStartTimePicker,
                           ),
                         ],
                       ),
@@ -169,10 +183,11 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                             height: 10,
                           ),
                           CuTime(
-                            "hi",
+                            _endTime.format(context).toString(),
                             FontAwesomeIcons.clock,
                             width: MediaQuery.of(context).size.width * .44,
                             height: 50,
+                            onTap: _showEndTimePicker,
                           ),
                         ],
                       ),
@@ -311,5 +326,26 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
         selected = DateUtils.dateOnly(selectedDate);
       });
     }
+  }
+
+  void _showStartTimePicker() {
+    showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    ).then((value) {
+      setState(() {
+        _startTime = value!;
+      });
+    });
+  }
+  void _showEndTimePicker() {
+    showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    ).then((value) {
+      setState(() {
+        _endTime = value!;
+      });
+    });
   }
 }

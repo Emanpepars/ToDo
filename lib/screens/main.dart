@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo/firebase_options.dart';
 import 'package:todo/home_layout/home_layout.dart';
+import 'package:todo/home_layout/home_layout2.dart';
 import 'package:todo/provider/init_user_provider.dart';
 import 'package:todo/provider/themeProvider.dart';
+import 'package:todo/screens/add_task_screen.dart';
 import 'package:todo/screens/edit_screen.dart';
 import 'package:todo/screens/login_screen.dart';
 import 'package:todo/screens/registerscreen.dart';
@@ -17,6 +19,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  //FirebaseFirestore.instance.disableNetwork();
   runApp(
     MultiProvider(
       providers: [
@@ -38,7 +41,10 @@ class MyApp extends StatelessWidget {
     var initUserProvider = Provider.of<InitUserProvider>(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: initUserProvider.firebaseUser!= null? HomeScreen.routeName :RegisterScreen.routeName ,
+      initialRoute:
+      //initUserProvider.firebaseUser!= null?
+      TasksScreen.routeName,
+          //:RegisterScreen.routeName ,
       routes: {
         HomeScreen.routeName: (context) => const HomeScreen(),
         TasksTab.routeName: (context) => const TasksTab(),
@@ -46,6 +52,8 @@ class MyApp extends StatelessWidget {
         EditScreen.routeName: (context) => EditScreen(),
         LoginScreen.routeName: (context) => LoginScreen(),
         RegisterScreen.routeName: (context) => RegisterScreen(),
+        TasksScreen.routeName: (context) => TasksScreen(),
+        AddTaskScreen.routeName: (context) => AddTaskScreen(),
       },
       theme: MyThemeData.lightTheme,
       darkTheme: MyThemeData.darkTheme,

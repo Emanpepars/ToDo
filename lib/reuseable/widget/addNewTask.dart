@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:todo/firebase/firebase_functions.dart';
@@ -73,7 +72,7 @@ class _AddNewTaskState extends State<AddNewTask> {
               controller: descriptionController,
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return "Please Enter Task Description";
+                  return "Please Enter Task Title";
                 }
                 return null;
               },

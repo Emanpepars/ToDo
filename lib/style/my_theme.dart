@@ -8,7 +8,7 @@ class MyThemeData{
   static const Color darkColor =Color(0xFF060E1E);
   static ThemeData lightTheme = ThemeData(
     primaryColor: lightColor,
-    scaffoldBackgroundColor:  Colors.transparent,
+    scaffoldBackgroundColor:  Colors.white,
     textTheme:  TextTheme(
       headlineLarge: GoogleFonts.poppins(
         color: Colors.white,
@@ -50,7 +50,7 @@ class MyThemeData{
   );
   static ThemeData darkTheme = ThemeData(
     primaryColor: darkColor,
-    scaffoldBackgroundColor:  Colors.transparent,
+    scaffoldBackgroundColor:  Colors.black,
     textTheme:  TextTheme(
       headlineLarge: GoogleFonts.poppins(
         color: Colors.black,

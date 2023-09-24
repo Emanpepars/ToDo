@@ -4,7 +4,6 @@ import 'package:todo/firebase/firebase_functions.dart';
 import 'package:todo/home_layout/home_layout.dart';
 import 'package:todo/provider/init_user_provider.dart';
 import 'package:todo/screens/registerscreen.dart';
-import 'package:todo/screens/tabs/settings_tab.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({Key? key}) : super(key: key);
@@ -38,6 +37,7 @@ class LoginScreen extends StatelessWidget {
                   if(value == null || value.isEmpty){
                     return "please enter email";
                   }
+                  return null;
                 },
                 controller: emailController,
                 decoration: const InputDecoration(
@@ -52,6 +52,7 @@ class LoginScreen extends StatelessWidget {
                   if(value == null || value.isEmpty){
                     return "please enter email";
                   }
+                  return null;
                 },
                 controller: passwordController,
                 decoration: const InputDecoration(

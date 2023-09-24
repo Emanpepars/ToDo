@@ -286,6 +286,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                 description: noteController.text,
                                 state: false,
                                 date: selected.millisecondsSinceEpoch,
+                                endDate: _endTime.hour * 60 + _endTime.minute,     // Convert TimeOfDay to int
+                                startDate: _startTime.hour * 60 + _startTime.minute,
                               );
                               FireBaseFunctions.addTask(task).then(
                                     (value) => Navigator.pop(context),

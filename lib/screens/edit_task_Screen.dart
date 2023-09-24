@@ -45,8 +45,8 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
   @override
   Widget build(BuildContext context) {
     var args = ModalRoute.of(context)?.settings.arguments as TaskModel;
-    // titleController = TextEditingController(text:args.title,);
-    // noteController = TextEditingController(text:args.description,);
+    titleController = TextEditingController(text:args.title,);
+    noteController = TextEditingController(text:args.description,);
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
@@ -102,6 +102,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                     height: 10,
                   ),
                   CuTextField(
+                    title: args.title,
                     controller: titleController,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -287,6 +288,8 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                                 description: noteController.text,
                                 state: false,
                                 date: selected.millisecondsSinceEpoch,
+                                endDate: _endTime.hour * 60 + _endTime.minute,     // Convert TimeOfDay to int
+                                startDate: _startTime.hour * 60 + _startTime.minute,
                                 userId: args.userId,
                               );
                               FireBaseFunctions.updateTask(task.id, task)

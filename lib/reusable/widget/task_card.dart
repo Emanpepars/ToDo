@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:todo/firebase/firebase_functions.dart';
 import 'package:todo/model/task_model.dart';
-import 'package:todo/screens/edit_screen.dart';
+import 'package:todo/reusable/widget/cu_text_form_field.dart';
 import 'package:todo/screens/edit_task_Screen.dart';
 import 'package:todo/style/my_theme.dart';
 
@@ -17,6 +19,14 @@ class TaskCard extends StatefulWidget {
 class _TaskCardState extends State<TaskCard> {
   @override
   Widget build(BuildContext context) {
+    final formattedStartTime = DateFormat('h:mm a').format(
+      DateTime(
+          2023, 1, 1, widget.task.startDate ~/ 60, widget.task.startDate % 60),
+    );
+    final formattedEndTime = DateFormat('h:mm a').format(
+      DateTime(
+          2023, 1, 1, widget.task.startDate ~/ 60, widget.task.startDate % 60),
+    );
     return Card(
       shape: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
@@ -25,7 +35,7 @@ class _TaskCardState extends State<TaskCard> {
       elevation: 12,
       child: Slidable(
         startActionPane: ActionPane(
-          extentRatio: .4,
+          extentRatio: .5,
           motion: const DrawerMotion(),
           children: [
             SlidableAction(
@@ -46,18 +56,20 @@ class _TaskCardState extends State<TaskCard> {
               autoClose: true,
               onPressed: (context) {
                 Navigator.pushNamed(
-                    context,
-                    EditTaskScreen.routeName,
+                  context,
+                  EditTaskScreen.routeName,
                   arguments: TaskModel(
+                    endDate: widget.task.endDate,
+                    startDate: widget.task.startDate,
                     userId: widget.task.userId,
                     id: widget.task.id,
-                      title: widget.task.title,
-                      description: widget.task.description,
-                      state: widget.task.state,
-                      date: widget.task.date,
+                    title: widget.task.title,
+                    description: widget.task.description,
+                    state: widget.task.state,
+                    date: widget.task.date,
                   ),
                 );
-                },
+              },
               backgroundColor: Colors.green,
               foregroundColor: Colors.white,
               icon: Icons.edit,
@@ -74,47 +86,88 @@ class _TaskCardState extends State<TaskCard> {
                 decoration: BoxDecoration(
                   borderRadius:
                       BorderRadius.circular(5.0), // Adjust the radius as needed
-                  color: widget.task.state
-                      ? MyThemeData.greenColor
-                      : MyThemeData.lightColor,
+                  color:
+                      widget.task.state ? MyThemeData.lightColor : Colors.black,
                 ),
                 width: 4,
-                height: MediaQuery.of(context).size.height * .08,
+                height: MediaQuery.of(context).size.height * .09,
                 child: const VerticalDivider(),
               ),
               const SizedBox(
-                width: 25,
+                width: 15,
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    widget.task.title,
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          color: widget.task.state
-                              ? MyThemeData.greenColor
-                              : MyThemeData.lightColor,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      widget.task.title,
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            color: widget.task.state
+                                ? MyThemeData.lightColor
+                                : Colors.black,
+                          ),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      children: [
+                        const Icon(
+                          FontAwesomeIcons.clock,
+                          size: 10,
                         ),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                    widget.task.description,
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
-                ],
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        CuText(
+                          formattedStartTime,
+                          fontSize: 10,
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        CuText(
+                          formattedEndTime,
+                          fontSize: 10,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    Text(
+                      widget.task.description,
+                      style: Theme.of(context).textTheme.bodySmall,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                    ),
+                  ],
+                ),
               ),
-              const Spacer(),
+              // const Spacer(),
+              SizedBox(
+                width: 5,
+              ),
               widget.task.state
                   ? Text(
                       "Done!",
                       style:
                           Theme.of(context).textTheme.headlineLarge!.copyWith(
-                                color: Colors.green,
+                                color: Colors.blue,
                               ),
                     )
                   : ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.all<Color>(Colors.black),
+                        shape: MaterialStateProperty.all<OutlinedBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.0),
+                          ),
+                        ),
+                      ),
                       onPressed: () {
                         setState(
                           () {

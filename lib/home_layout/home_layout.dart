@@ -5,14 +5,16 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:todo/firebase/firebase_functions.dart';
 import 'package:todo/model/task_model.dart';
+import 'package:todo/provider/home_provider.dart';
 import 'package:todo/provider/themeProvider.dart';
 import 'package:todo/reusable/widget/cu_text_form_field.dart';
 import 'package:todo/reusable/widget/task_card.dart';
 import 'package:todo/screens/add_task_screen.dart';
 import 'package:shimmer/shimmer.dart';
 
+
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+
   static const String routeName = "home screen";
 
   @override
@@ -20,25 +22,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // Create a Stepper widget to order the tasks by timer.
-  List<Step> steps = [];
-
-  DateTime dateTime = DateTime.now();
-
-  int currentStep = 0;
-
-  int maxStepValue = 0; // Maximum step value
-
-  @override
-  void initState() {
-    super.initState();
-    // Initialize the maximum step value based on tasks
-    maxStepValue = steps.length - 1;
-  }
-
+  bool light = true;
   @override
   Widget build(BuildContext context) {
     var themeProvider = Provider.of<ThemeProvider>(context);
+    var homeProvider = Provider.of<HomeProvider>(context);
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(15),
@@ -57,19 +45,22 @@ class _HomeScreenState extends State<HomeScreen> {
                             themeProvider.themeMode == ThemeMode.light
                                 ? ThemeMode.dark
                                 : ThemeMode.light);
+                        setState(() {
+                          light = !light;
+                        });
                       },
                       child: themeProvider.themeMode == ThemeMode.light
                           ? const ImageIcon(
-                              AssetImage("assets/moon_icon.png"),
-                              size: 20,
-                            )
+                        AssetImage("assets/moon_icon.png"),
+                        size: 20,
+                      )
                           : const ImageIcon(
-                              AssetImage(
-                                "assets/sun_icon.png",
-                              ),
-                              size: 25,
-                              color: Colors.white,
-                            )),
+                        AssetImage(
+                          "assets/sun_icon.png",
+                        ),
+                        size: 25,
+                        color: Colors.white,
+                      )),
                   const Spacer(),
                   const Icon(
                     Icons.account_circle_outlined,
@@ -136,23 +127,29 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(
                 height: 10,
               ),
+              light ?
               DatePicker(
                 DateTime.now(),
                 initialSelectedDate: DateTime.now(),
-                selectionColor: Colors.blue,
-                selectedTextColor: Colors.white,
-                height: MediaQuery.of(context).size.height * .13,
-                width: MediaQuery.of(context).size.height * .09,
+                selectionColor: Theme.of(context).primaryColor,
+                unSelectedTextColor: Colors.black,
+                height: MediaQuery.of(context).size.height * 0.13,
+                width: MediaQuery.of(context).size.height * 0.09,
                 onDateChange: (date) {
                   // New date selected
-                  setState(
-                    () {
-                      dateTime = date;
-                      steps = [];
-                      currentStep = 0;
-                      maxStepValue = 0;
-                    },
-                  );
+                  homeProvider.onDateChange(date);
+                },
+              )
+                  :DatePicker(
+                DateTime.now(),
+                initialSelectedDate: DateTime.now(),
+                selectionColor: Theme.of(context).primaryColor,
+                unSelectedTextColor: Colors.white,
+                height: MediaQuery.of(context).size.height * 0.13,
+                width: MediaQuery.of(context).size.height * 0.09,
+                onDateChange: (date) {
+                  // New date selected
+                  homeProvider.onDateChange(date);
                 },
               ),
               const SizedBox(
@@ -160,7 +157,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               Expanded(
                 child: StreamBuilder(
-                  stream: FireBaseFunctions.getTasksFromFireStore(dateTime),
+                  stream: FireBaseFunctions.getTasksFromFireStore(homeProvider.dateTime),
                   builder: (context, snapshot) {
                     if (snapshot.hasError) {
                       return const Text('Something went wrong');
@@ -173,59 +170,59 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: SingleChildScrollView(
                             physics: const NeverScrollableScrollPhysics(),
                             child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Container(
-                                width: double.infinity,
-                                height: 100.0, // Adjust the height as needed
-                                color: Colors.white,
-                              ),
-                              const SizedBox(height: 16.0),
-                              Container(
-                                width: double.infinity,
-                                height: 20.0, // Adjust the height as needed
-                                color: Colors.white,
-                              ),
-                              const SizedBox(height: 16.0),
-                              Container(
-                                width: double.infinity,
-                                height: 40.0, // Adjust the height as needed
-                                color: Colors.white,
-                              ),
-                              const SizedBox(height: 16.0),
-                              Container(
-                                width: double.infinity,
-                                height: 20.0, // Adjust the height as needed
-                                color: Colors.white,
-                              ),
-                              const SizedBox(height: 16.0),
-                              Container(
-                                width: 200.0, // Adjust the width as needed
-                                height: 20.0, // Adjust the height as needed
-                                color: Colors.white,
-                              ),
-                              const SizedBox(height: 16.0),
-                              Container(
-                                width: double.infinity,
-                                height: 80.0, // Adjust the height as needed
-                                color: Colors.white,
-                              ),
-                              const SizedBox(height: 16.0),
-                              Container(
-                                width: 200.0, // Adjust the width as needed
-                                height: 20.0, // Adjust the height as needed
-                                color: Colors.white,
-                              ),
-                              const SizedBox(height: 16.0),
-                            ],
-                          ),
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Container(
+                                  width: double.infinity,
+                                  height: 100.0, // Adjust the height as needed
+                                  color: Colors.white,
+                                ),
+                                const SizedBox(height: 16.0),
+                                Container(
+                                  width: double.infinity,
+                                  height: 20.0, // Adjust the height as needed
+                                  color: Colors.white,
+                                ),
+                                const SizedBox(height: 16.0),
+                                Container(
+                                  width: double.infinity,
+                                  height: 40.0, // Adjust the height as needed
+                                  color: Colors.white,
+                                ),
+                                const SizedBox(height: 16.0),
+                                Container(
+                                  width: double.infinity,
+                                  height: 20.0, // Adjust the height as needed
+                                  color: Colors.white,
+                                ),
+                                const SizedBox(height: 16.0),
+                                Container(
+                                  width: 200.0, // Adjust the width as needed
+                                  height: 20.0, // Adjust the height as needed
+                                  color: Colors.white,
+                                ),
+                                const SizedBox(height: 16.0),
+                                Container(
+                                  width: double.infinity,
+                                  height: 80.0, // Adjust the height as needed
+                                  color: Colors.white,
+                                ),
+                                const SizedBox(height: 16.0),
+                                Container(
+                                  width: 200.0, // Adjust the width as needed
+                                  height: 20.0, // Adjust the height as needed
+                                  color: Colors.white,
+                                ),
+                                const SizedBox(height: 16.0),
+                              ],
+                            ),
                           ));
                     }
 
                     List<TaskModel> tasks = snapshot.data?.docs
-                            .map((task) => task.data())
-                            .toList() ??
+                        .map((task) => task.data())
+                        .toList() ??
                         [];
                     if (tasks.isEmpty) {
                       return Center(
@@ -233,11 +230,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           children: [
                             themeProvider.themeMode == ThemeMode.light
                                 ? Image.asset(
-                                    "assets/empty_task.png",
-                                  )
+                              "assets/empty_task.png",
+                            )
                                 : Image.asset(
-                                    "assets/empty_task_dk.png",
-                                  ),
+                              "assets/empty_task_dk.png",
+                            ),
                             CuText(
                               "Oops! You don't",
                             ),
@@ -250,13 +247,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     // Sort the tasks by start date.
                     tasks.sort((a, b) => a.startDate.compareTo(b.startDate));
 
-                    maxStepValue = tasks.length -
+                    homeProvider.maxStepValue = tasks.length -
                         1; // Update the maximum step value based on tasks
                     return Stepper(
-                      controlsBuilder: controlBuilders,
-                      type: StepperType.vertical, // Set to vertical
-                      currentStep:
-                          currentStep, // Set the current step index here
+                      controlsBuilder: homeProvider.controlBuilders,
+                      type: StepperType.vertical,
+                      // Set to vertical
+                      currentStep: homeProvider.currentStep,
+                      // Set the current step index here
                       steps: tasks.map((task) {
                         // Create a Step widget for each task.
                         final formattedTime = DateFormat('h:mm a').format(
@@ -272,9 +270,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               : StepState.disabled,
                         );
                       }).toList(),
-                      onStepTapped: onStepTapped,
-                      onStepContinue: continueStep,
-                      onStepCancel: cancelStep,
+                      onStepTapped: homeProvider.onStepTapped,
+                      onStepContinue: homeProvider.continueStep,
+                      onStepCancel: homeProvider.cancelStep,
                     );
                   },
                 ),
@@ -282,50 +280,6 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  continueStep() {
-    setState(() {
-      currentStep = currentStep + 1; //currentStep+=1;
-    });
-  }
-
-  cancelStep() {
-    if (currentStep > 0) {
-      setState(() {
-        currentStep = currentStep - 1; //currentStep-=1;
-      });
-    }
-    // onStepTapped(int value) {
-    //   setState(() {
-    //     currentStep = value;
-    //   });
-    // }
-  }
-
-  onStepTapped(int value) {
-    setState(() {
-      currentStep = value;
-    });
-  }
-
-  Widget controlBuilders(context, details) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Row(
-        children: [
-          ElevatedButton(
-            onPressed: currentStep < maxStepValue ? continueStep : null,
-            child: const Text('Next'),
-          ),
-          const SizedBox(width: 10),
-          OutlinedButton(
-            onPressed: details.onStepCancel,
-            child: const Text('Back'),
-          ),
-        ],
       ),
     );
   }

@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:todo/firebase/firebase_functions.dart';
 import 'package:todo/model/task_model.dart';
 import 'package:todo/reusable/widget/cu_text_form_field.dart';
-import 'package:todo/screens/edit_task_Screen.dart';
+import 'package:todo/screens/edit_task_screen.dart';
 import 'package:todo/style/my_theme.dart';
 
 class TaskCard extends StatefulWidget {
@@ -87,7 +87,7 @@ class _TaskCardState extends State<TaskCard> {
                   borderRadius:
                       BorderRadius.circular(5.0), // Adjust the radius as needed
                   color:
-                      widget.task.state ? MyThemeData.lightColor : Colors.black,
+                      widget.task.state ? MyThemeData.lightTheme.primaryColor : Colors.black,
                 ),
                 width: 4,
                 height: MediaQuery.of(context).size.height * .09,
@@ -102,11 +102,7 @@ class _TaskCardState extends State<TaskCard> {
                   children: [
                     Text(
                       widget.task.title,
-                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                            color: widget.task.state
-                                ? MyThemeData.lightColor
-                                : Colors.black,
-                          ),
+                      style: Theme.of(context).textTheme.bodyLarge,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
                     ),

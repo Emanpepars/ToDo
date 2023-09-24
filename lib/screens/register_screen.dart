@@ -34,6 +34,7 @@ class RegisterScreen extends StatelessWidget {
                   if(value == null || value.isEmpty){
                     return "please enter email";
                   }
+                  return null;
                 },
                 controller: emailController,
                 decoration: const InputDecoration(
@@ -48,6 +49,7 @@ class RegisterScreen extends StatelessWidget {
                   if(value == null || value.isEmpty){
                     return "please enter email";
                   }
+                  return null;
                 },
                 controller: passwordController,
                 decoration: const InputDecoration(

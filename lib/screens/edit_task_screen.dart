@@ -1,52 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:todo/firebase/firebase_functions.dart';
+import 'package:provider/provider.dart';
 import 'package:todo/model/task_model.dart';
+import 'package:todo/provider/edit_task_provider.dart';
 import 'package:todo/reusable/widget/cu_text_form_field.dart';
 
-class EditTaskScreen extends StatefulWidget {
+class EditTaskScreen extends StatelessWidget{
   const EditTaskScreen({Key? key}) : super(key: key);
   static const String routeName = "editTaskScreen";
 
   @override
-  State<EditTaskScreen> createState() => _EditTaskScreenState();
-}
-
-class _EditTaskScreenState extends State<EditTaskScreen> {
-
-  late TimeOfDay _endTime; // Declare _endTime as a late variable
-  late TimeOfDay _startTime; // Declare _endTime as a late variable
-  var selected = DateUtils.dateOnly(
-    DateTime.now(),
-  );
-  int selectedAvatar = 0; // Index of the selected avatar
-
-  // List of avatar colors
-  final List<Color> avatarColors = [
-    Colors.red,
-    Colors.green,
-    Colors.blue,
-  ];
-
-  var formKey = GlobalKey<FormState>();
-  TextEditingController titleController = TextEditingController();
-  TextEditingController noteController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-
-    var now = DateTime.now();
-    _endTime = TimeOfDay(hour: now.hour, minute: now.minute);
-    _startTime = TimeOfDay(hour: now.hour, minute: now.minute);
-
-  }
-  @override
   Widget build(BuildContext context) {
     var args = ModalRoute.of(context)?.settings.arguments as TaskModel;
-    titleController = TextEditingController(text:args.title,);
-    noteController = TextEditingController(text:args.description,);
+    var editProvider = Provider.of<EditTaskProvider>(context);
+    editProvider.titleController = TextEditingController(text:args.title,);
+    editProvider.noteController = TextEditingController(text:args.description,);
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
@@ -54,7 +23,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
         child: SafeArea(
           child: SingleChildScrollView(
             child: Form(
-              key: formKey,
+              key: editProvider.formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -103,7 +72,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                   ),
                   CuTextField(
                     title: args.title,
-                    controller: titleController,
+                    controller: editProvider.titleController,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return "Please Enter Task title";
@@ -122,7 +91,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                   ),
                   CuTextField(
                     title: args.description,
-                    controller: noteController,
+                    controller: editProvider.noteController,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return "Please Enter Task Description";
@@ -140,60 +109,60 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                     height: 10,
                   ),
                   CuTime(
-                      selected.toString().substring(0, 10),
+                      editProvider.selected.toString().substring(0, 10),
                     FontAwesomeIcons.solidCalendarDays,
                     onTap: (){
-                      chooseDate();
+                      editProvider.chooseDate(context);
                     },
                   ),
                   const SizedBox(
                     height: 15,
                   ),
-                  Row(
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          CuText(
-                            "Start Time",
-                            fontSize: 12,
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          CuTime(
-                            _startTime.format(context).toString(),
-                            FontAwesomeIcons.clock,
-                            width: MediaQuery.of(context).size.width * .44,
-                            height: 50,
-                            onTap: _showStartTimePicker,
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        width: 16,
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          CuText(
-                            "End Time",
-                            fontSize: 12,
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          CuTime(
-                            _endTime.format(context).toString(),
-                            FontAwesomeIcons.clock,
-                            width: MediaQuery.of(context).size.width * .44,
-                            height: 50,
-                            onTap: _showEndTimePicker,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                  // Row(
+                  //   children: [
+                  //     Column(
+                  //       crossAxisAlignment: CrossAxisAlignment.start,
+                  //       children: [
+                  //         CuText(
+                  //           "Start Time",
+                  //           fontSize: 12,
+                  //         ),
+                  //         const SizedBox(
+                  //           height: 10,
+                  //         ),
+                  //         CuTime(
+                  //           "args.startDate.toString()",
+                  //           FontAwesomeIcons.clock,
+                  //           width: MediaQuery.of(context).size.width * .44,
+                  //           height: 50,
+                  //           onTap: editProvider.showStartTimePicker(context,args.startDate,),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //     const SizedBox(
+                  //       width: 16,
+                  //     ),
+                  //     Column(
+                  //       crossAxisAlignment: CrossAxisAlignment.start,
+                  //       children: [
+                  //         CuText(
+                  //           "End Time",
+                  //           fontSize: 12,
+                  //         ),
+                  //         const SizedBox(
+                  //           height: 10,
+                  //         ),
+                  //         CuTime(
+                  //          " args.endDate.toString()",
+                  //           FontAwesomeIcons.clock,
+                  //           width: MediaQuery.of(context).size.width * .44,
+                  //           height: 50,
+                  //           onTap: editProvider.showEndTimePicker(context, args.endDate,),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ],
+                  // ),
                   const SizedBox(
                     height: 15,
                   ),
@@ -246,19 +215,15 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                                 padding: const EdgeInsets.only(right: 8.0),
                                 child: GestureDetector(
                                   onTap: () {
-                                    setState(() {
-                                      selectedAvatar =
-                                          index; // Set the selected index
-                                    },
-                                    );
+                                    editProvider.onCircleTap(index);
                                   },
                                   child: CircleAvatar(
-                                    backgroundColor: avatarColors[index],
+                                    backgroundColor: editProvider.avatarColors[index],
                                     radius: 14.0,
                                     child: Icon(
                                       Icons.check,
                                       color: Colors.white,
-                                      size: selectedAvatar == index
+                                      size: editProvider.selectedAvatar == index
                                           ? 20.0
                                           : 0.0, // Show checkmark if selected
                                     ),
@@ -281,22 +246,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                             ),
                           ),
                           onPressed: () {
-                            if (formKey.currentState!.validate()) {
-                              TaskModel task = TaskModel(
-                                id: args.id,
-                                title: titleController.text,
-                                description: noteController.text,
-                                state: false,
-                                date: selected.millisecondsSinceEpoch,
-                                endDate: _endTime.hour * 60 + _endTime.minute,     // Convert TimeOfDay to int
-                                startDate: _startTime.hour * 60 + _startTime.minute,
-                                userId: args.userId,
-                              );
-                              FireBaseFunctions.updateTask(task.id, task)
-                                  .then(
-                                    (value) => Navigator.pop(context),
-                              );
-                            }
+                            editProvider.onSaveChangeTap(args.id, args.userId, context , args.startDate,args.endDate,);
                           },
                           child: Padding(
                             padding: const EdgeInsets.all(2.0),
@@ -320,37 +270,4 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
     );
   }
 
-  void chooseDate() async {
-    DateTime? selectedDate = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(const Duration(days: 360 * 22)),
-    );
-    if (selectedDate != null) {
-      setState(() {
-        selected = DateUtils.dateOnly(selectedDate);
-      });
-    }
-  }
-  void _showStartTimePicker() {
-    showTimePicker(
-      context: context,
-      initialTime: TimeOfDay.now(),
-    ).then((value) {
-      setState(() {
-        _startTime = value!;
-      });
-    });
-  }
-  void _showEndTimePicker() {
-    showTimePicker(
-      context: context,
-      initialTime: TimeOfDay.now(),
-    ).then((value) {
-      setState(() {
-        _endTime = value!;
-      });
-    });
-  }
 }

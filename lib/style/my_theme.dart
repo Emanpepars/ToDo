@@ -1,72 +1,119 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:todo/style/const.dart';
 
-class MyThemeData{
-  static const Color lightColor = Color(0xFF5D9CEC);
-  static const Color greenColor = Color(0xFF61E757);
-  static const Color lightGreenColor = Color(0xFFDFECDB);
-  static const Color darkColor =Color(0xFF060E1E);
+class MyThemeData {
   static ThemeData lightTheme = ThemeData(
+    brightness: Brightness.light,
     primaryColor: lightColor,
-    scaffoldBackgroundColor:  Colors.white,
-    textTheme:  TextTheme(
-      headlineLarge: GoogleFonts.poppins(
-        color: Colors.white,
-        fontWeight: FontWeight.bold,
-        fontSize: 22,
-      ),
-      headlineMedium: GoogleFonts.poppins(
-        color: Colors.black,
-        fontWeight: FontWeight.bold,
+    primaryColorDark: black,
+    unselectedWidgetColor: black,
+    scaffoldBackgroundColor: white,
+    textTheme: TextTheme(
+      //today
+      headlineLarge: GoogleFonts.quicksand(
+          fontWeight: FontWeight.w900, fontSize: 20, color: black),
+      //add&&edit task
+      headlineMedium: GoogleFonts.quicksand(
+        fontWeight: FontWeight.w900,
+        color: black,
         fontSize: 18,
       ),
-      bodyLarge: GoogleFonts.poppins(
-        color: lightColor,
-        fontWeight: FontWeight.bold,
-        fontSize: 18,
-      ),
-      bodyMedium: GoogleFonts.poppins(
-      color: Colors.black,
-      fontWeight: FontWeight.bold,
-      fontSize: 14,
-    ),
-      bodySmall: GoogleFonts.roboto(
-        fontWeight: FontWeight.normal,
-        fontSize: 12,
-        color: Colors.black,
-      ),
-      titleMedium: GoogleFonts.poppins(
-        color: Colors.black,
-        fontWeight: FontWeight.bold,
-        fontSize: 20,
-      ),
-      //day in task
-      titleSmall: GoogleFonts.poppins(
-        color: Colors.black,
-        fontWeight: FontWeight.normal,
+      //choose
+      headlineSmall: GoogleFonts.quicksand(
+        fontWeight: FontWeight.w900,
         fontSize: 16,
       ),
-    ),
-  );
-  static ThemeData darkTheme = ThemeData(
-    primaryColor: darkColor,
-    scaffoldBackgroundColor:  Colors.black,
-    textTheme:  TextTheme(
-      headlineLarge: GoogleFonts.poppins(
-        color: Colors.black,
-        fontWeight: FontWeight.bold,
-        fontSize: 22,
-      ),
+      //task title
       bodyLarge: GoogleFonts.poppins(
         color: lightColor,
-        fontWeight: FontWeight.bold,
+        fontWeight: FontWeight.w900,
         fontSize: 18,
       ),
+      //task des
       bodySmall: GoogleFonts.roboto(
         fontWeight: FontWeight.normal,
         fontSize: 12,
-        color: Colors.white,
+        color: black,
       ),
     ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ButtonStyle(
+        shape: MaterialStateProperty.all<OutlinedBorder>(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.0),
+          ),
+        ),
+        textStyle: MaterialStateProperty.all<TextStyle?>(
+          GoogleFonts.quicksand(
+            fontWeight: FontWeight.w900,
+            fontSize: 16,
+          ),
+        ),
+        backgroundColor: MaterialStateProperty.all<Color?>(
+          lightColor,
+        ),
+      ),
+    ),
+    iconTheme: const IconThemeData(
+      color: black,
+    ),
+    cardColor: Colors.white,
+  );
+  static ThemeData darkTheme = ThemeData(
+    brightness: Brightness.dark,
+    primaryColor: darkColor,
+    primaryColorDark: white,
+    scaffoldBackgroundColor: black,
+    textTheme: TextTheme(
+      //today
+      headlineLarge: GoogleFonts.quicksand(
+          fontWeight: FontWeight.w900, fontSize: 20, color: white),
+      //add&&edit task
+      headlineMedium: GoogleFonts.quicksand(
+        fontWeight: FontWeight.w900,
+        color: white,
+        fontSize: 18,
+      ),
+      //choose
+      headlineSmall: GoogleFonts.quicksand(
+        fontWeight: FontWeight.w900,
+        fontSize: 16,
+      ),
+      //task title
+      bodyLarge: GoogleFonts.poppins(
+        color: darkColor,
+        fontWeight: FontWeight.w900,
+        fontSize: 18,
+      ),
+      //task des
+      bodySmall: GoogleFonts.roboto(
+        fontWeight: FontWeight.normal,
+        fontSize: 12,
+        color: white,
+      ),
+    ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ButtonStyle(
+        shape: MaterialStateProperty.all<OutlinedBorder>(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.0),
+          ),
+        ),
+        textStyle: MaterialStateProperty.all<TextStyle?>(
+          GoogleFonts.quicksand(
+            fontWeight: FontWeight.w900,
+            fontSize: 16,
+          ),
+        ),
+        backgroundColor: MaterialStateProperty.all<Color?>(
+          darkColor,
+        ),
+      ),
+    ),
+    iconTheme: const IconThemeData(
+      color: white,
+    ),
+    cardColor: Colors.white,
   );
 }

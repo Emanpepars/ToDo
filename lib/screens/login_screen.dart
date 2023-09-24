@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:todo/firebase/firebase_functions.dart';
 import 'package:todo/home_layout/home_layout.dart';
 import 'package:todo/provider/init_user_provider.dart';
-import 'package:todo/screens/registerscreen.dart';
+import 'package:todo/screens/register_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({Key? key}) : super(key: key);

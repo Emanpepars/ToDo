@@ -2,58 +2,28 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import 'package:todo/firebase/firebase_functions.dart';
 import 'package:todo/model/task_model.dart';
+import 'package:todo/provider/add_task_provider.dart';
 import 'package:todo/reusable//widget/cu_text_form_field.dart';
 
-class AddTaskScreen extends StatefulWidget {
+class AddTaskScreen extends StatelessWidget {
   const AddTaskScreen({Key? key}) : super(key: key);
   static const String routeName = "addTaskScreen";
 
 
-  @override
-  State<AddTaskScreen> createState() => _AddTaskScreenState();
-}
-
-class _AddTaskScreenState extends State<AddTaskScreen> {
-  late TimeOfDay _endTime; // Declare _endTime as a late variable
-  late TimeOfDay _startTime; // Declare _endTime as a late variable
-  var selected = DateUtils.dateOnly(
-    DateTime.now(),
-  );
-  int selectedAvatar = 0; // Index of the selected avatar
-
-  // List of avatar colors
-  final List<Color> avatarColors = [
-    Colors.red,
-    Colors.green,
-    Colors.blue,
-  ];
-
-  var formKey = GlobalKey<FormState>();
-  TextEditingController titleController = TextEditingController();
-  TextEditingController noteController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-
-    var now = DateTime.now();
-    _endTime = TimeOfDay(hour: now.hour, minute: now.minute);
-    _startTime = TimeOfDay(hour: now.hour, minute: now.minute);
-
-  }
 
   @override
   Widget build(BuildContext context) {
+    var addTaskProvider = Provider.of<AddTaskProvider>(context);
     return Scaffold(
-      backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.all(15),
         child: SafeArea(
           child: SingleChildScrollView(
             child: Form(
-              key: formKey,
+              key: addTaskProvider.formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -102,7 +72,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                   ),
                   CuTextField(
                     title: "Enter title here",
-                    controller: titleController,
+                    controller: addTaskProvider.titleController,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return "Please Enter Task Description";
@@ -121,7 +91,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                   ),
                   CuTextField(
                     title: "Enter note here",
-                    controller: noteController,
+                    controller: addTaskProvider.noteController,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return "Please Enter Task Description";
@@ -139,60 +109,60 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                     height: 10,
                   ),
                   CuTime(
-                    selected.toString().substring(0, 10),
+                    addTaskProvider.selected.toString().substring(0, 10),
                     FontAwesomeIcons.solidCalendarDays,
                      onTap:  (){
-                        chooseDate();
+                        addTaskProvider.chooseDate(context);
                       },
                   ),
                   const SizedBox(
                     height: 15,
                   ),
-                  Row(
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          CuText(
-                            "Start Time",
-                            fontSize: 12,
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          CuTime(
-                            _startTime.format(context).toString(),
-                            FontAwesomeIcons.clock,
-                            width: MediaQuery.of(context).size.width * .44,
-                            height: 50,
-                            onTap: _showStartTimePicker,
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        width: 16,
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          CuText(
-                            "End Time",
-                            fontSize: 12,
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          CuTime(
-                            _endTime.format(context).toString(),
-                            FontAwesomeIcons.clock,
-                            width: MediaQuery.of(context).size.width * .44,
-                            height: 50,
-                            onTap: _showEndTimePicker,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                  // Row(
+                  //   children: [
+                  //     Column(
+                  //       crossAxisAlignment: CrossAxisAlignment.start,
+                  //       children: [
+                  //         CuText(
+                  //           "Start Time",
+                  //           fontSize: 12,
+                  //         ),
+                  //         const SizedBox(
+                  //           height: 10,
+                  //         ),
+                  //         CuTime(
+                  //           addTaskProvider.startTime.format(context).toString(),
+                  //           FontAwesomeIcons.clock,
+                  //           width: MediaQuery.of(context).size.width * .44,
+                  //           height: 50,
+                  //           onTap: addTaskProvider.showStartTimePicker(context),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //     const SizedBox(
+                  //       width: 16,
+                  //     ),
+                  //     Column(
+                  //       crossAxisAlignment: CrossAxisAlignment.start,
+                  //       children: [
+                  //         CuText(
+                  //           "End Time",
+                  //           fontSize: 12,
+                  //         ),
+                  //         const SizedBox(
+                  //           height: 10,
+                  //         ),
+                  //         CuTime(
+                  //           addTaskProvider.endTime.format(context).toString(),
+                  //           FontAwesomeIcons.clock,
+                  //           width: MediaQuery.of(context).size.width * .44,
+                  //           height: 50,
+                  //           onTap: addTaskProvider.showEndTimePicker(context),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ],
+                  // ),
                   const SizedBox(
                     height: 15,
                   ),
@@ -244,19 +214,17 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                                 padding: const EdgeInsets.only(right: 8.0),
                                 child: GestureDetector(
                                   onTap: () {
-                                    setState(() {
-                                      selectedAvatar =
+                                      addTaskProvider.selectedAvatar =
                                           index; // Set the selected index
-                                    },
-                                    );
+
                                   },
                                   child: CircleAvatar(
-                                    backgroundColor: avatarColors[index],
+                                    backgroundColor: addTaskProvider.avatarColors[index],
                                     radius: 14.0,
                                     child: Icon(
                                       Icons.check,
                                       color: Colors.white,
-                                      size: selectedAvatar == index
+                                      size: addTaskProvider.selectedAvatar == index
                                           ? 20.0
                                           : 0.0, // Show checkmark if selected
                                     ),
@@ -279,15 +247,15 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                             ),
                           ),
                           onPressed: () {
-                            if (formKey.currentState!.validate()) {
+                            if (addTaskProvider.formKey.currentState!.validate()) {
                               TaskModel task = TaskModel(
                                 userId: FirebaseAuth.instance.currentUser!.uid,
-                                title: titleController.text,
-                                description: noteController.text,
+                                title: addTaskProvider.titleController.text,
+                                description: addTaskProvider.noteController.text,
                                 state: false,
-                                date: selected.millisecondsSinceEpoch,
-                                endDate: _endTime.hour * 60 + _endTime.minute,     // Convert TimeOfDay to int
-                                startDate: _startTime.hour * 60 + _startTime.minute,
+                                date: addTaskProvider.selected.millisecondsSinceEpoch,
+                                endDate: addTaskProvider.endTime.hour * 60 + addTaskProvider.endTime.minute,     // Convert TimeOfDay to int
+                                startDate: addTaskProvider.startTime.hour * 60 + addTaskProvider.startTime.minute,
                               );
                               FireBaseFunctions.addTask(task).then(
                                     (value) => Navigator.pop(context),
@@ -316,38 +284,4 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
     );
   }
 
-  void chooseDate() async {
-    DateTime? selectedDate = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(const Duration(days: 360 * 22)),
-    );
-    if (selectedDate != null) {
-      setState(() {
-        selected = DateUtils.dateOnly(selectedDate);
-      });
-    }
-  }
-
-  void _showStartTimePicker() {
-    showTimePicker(
-      context: context,
-      initialTime: TimeOfDay.now(),
-    ).then((value) {
-      setState(() {
-        _startTime = value!;
-      });
-    });
-  }
-  void _showEndTimePicker() {
-    showTimePicker(
-      context: context,
-      initialTime: TimeOfDay.now(),
-    ).then((value) {
-      setState(() {
-        _endTime = value!;
-      });
-    });
-  }
 }

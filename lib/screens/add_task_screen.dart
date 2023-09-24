@@ -40,14 +40,12 @@ class AddTaskScreen extends StatelessWidget {
                         child: const Icon(
                           Icons.arrow_back_ios,
                           size: 20,
-                          color: Colors.black,
                         ),
                       ),
                       const Spacer(),
                       const Icon(
                         Icons.account_circle_outlined,
                         size: 30,
-                        color: Colors.black,
                       ),
                     ],
                   ),
@@ -64,8 +62,9 @@ class AddTaskScreen extends StatelessWidget {
                   const SizedBox(
                     height: 20,
                   ),
-                  CuText(
+                  Text(
                     "Title",
+                    style: Theme.of(context).textTheme.headlineSmall,
                   ),
                   const SizedBox(
                     height: 10,
@@ -83,8 +82,9 @@ class AddTaskScreen extends StatelessWidget {
                   const SizedBox(
                     height: 15,
                   ),
-                  CuText(
+                  Text(
                     "Note",
+                    style: Theme.of(context).textTheme.headlineSmall,
                   ),
                   const SizedBox(
                     height: 10,
@@ -102,8 +102,9 @@ class AddTaskScreen extends StatelessWidget {
                   const SizedBox(
                     height: 15,
                   ),
-                  CuText(
+                  Text(
                     "Date",
+                    style: Theme.of(context).textTheme.headlineSmall,
                   ),
                   const SizedBox(
                     height: 10,
@@ -123,9 +124,9 @@ class AddTaskScreen extends StatelessWidget {
                   //     Column(
                   //       crossAxisAlignment: CrossAxisAlignment.start,
                   //       children: [
-                  //         CuText(
+                  //         Text(
                   //           "Start Time",
-                  //           fontSize: 12,
+                  // style: Theme.of(context).textTheme.headlineSmall,
                   //         ),
                   //         const SizedBox(
                   //           height: 10,
@@ -145,9 +146,9 @@ class AddTaskScreen extends StatelessWidget {
                   //     Column(
                   //       crossAxisAlignment: CrossAxisAlignment.start,
                   //       children: [
-                  //         CuText(
+                  //         Text(
                   //           "End Time",
-                  //           fontSize: 12,
+                  //          style: Theme.of(context).textTheme.headlineSmall,
                   //         ),
                   //         const SizedBox(
                   //           height: 10,
@@ -166,8 +167,9 @@ class AddTaskScreen extends StatelessWidget {
                   const SizedBox(
                     height: 15,
                   ),
-                  CuText(
+                  Text(
                     "Remind",
+                    style: Theme.of(context).textTheme.headlineSmall,
                   ),
                   const SizedBox(
                     height: 10,
@@ -182,8 +184,9 @@ class AddTaskScreen extends StatelessWidget {
                   const SizedBox(
                     height: 10,
                   ),
-                  CuText(
+                  Text(
                     "Repeat",
+                    style: Theme.of(context).textTheme.headlineSmall,
                   ),
                   const SizedBox(
                     height: 10,
@@ -203,7 +206,10 @@ class AddTaskScreen extends StatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          CuText("Color"),
+                          Text(
+                            "Color",
+                            style: Theme.of(context).textTheme.headlineSmall,
+                          ),
                           const SizedBox(
                             height: 10,
                           ),
@@ -262,17 +268,14 @@ class AddTaskScreen extends StatelessWidget {
                               );
                             }
                             },
-                          child: Padding(
-                            padding: const EdgeInsets.all(2.0),
+                          child: const Padding(
+                            padding: EdgeInsets.all(2.0),
                             child: Text(
                               "Create Task",
-                              style: GoogleFonts.quicksand(
-                                fontSize: 18,
                               ),
                             ),
                           ),
                         ),
-                      ),
                     ],
                   )
                 ],

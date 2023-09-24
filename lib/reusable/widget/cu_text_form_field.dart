@@ -13,9 +13,7 @@ class CuTextField extends StatelessWidget {
     return TextFormField(
       validator: validator,
       controller: controller,
-      style: GoogleFonts.quicksand(
-        fontSize: 15,
-      ),
+      style: Theme.of(context).textTheme.headlineSmall!.copyWith(fontSize: 18),
       decoration:  InputDecoration(
         suffixIcon: suffixIcon,
         border: OutlineInputBorder(
@@ -23,7 +21,8 @@ class CuTextField extends StatelessWidget {
         ),
         hintText: title,
         hintStyle: GoogleFonts.quicksand(
-          fontSize: 12,
+          fontSize: 14,
+          fontWeight: FontWeight.w800,
         ),
 
       ),
@@ -53,7 +52,7 @@ class CuTime extends StatelessWidget {
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
               border: Border.all(
-                color: Colors.black45,
+                color: Theme.of(context).brightness == Brightness.light? Colors.black45 : Colors.white70,
               )
           ),
           padding: const EdgeInsets.symmetric(vertical: 16,horizontal: 12),
@@ -61,14 +60,10 @@ class CuTime extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: GoogleFonts.quicksand(
-                    fontSize: 12,
-                    color: Colors.black45,
-                    fontWeight: FontWeight.w900
-                ),
+                style: Theme.of(context).textTheme.headlineSmall!.copyWith(fontSize: 14),
               ),
-              Spacer(),
-              Icon(icon , color: Colors.black45,size: 20,),
+              const Spacer(),
+              Icon(icon,size: 20,),
             ],
           ),
         ),
@@ -95,10 +90,10 @@ class _CuDropState extends State<CuDrop> {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
         border: Border.all(
-          color: Colors.black45,
+          color: Theme.of(context).brightness == Brightness.light? Colors.black45 : Colors.white70,
         ),
       ),
-      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       child: DropdownButton(
         focusColor: Colors.transparent,
         iconSize: 30,
@@ -116,11 +111,7 @@ class _CuDropState extends State<CuDrop> {
             value: "None",
             child: Text(
               "None",
-              style: GoogleFonts.quicksand(
-                fontSize: 12,
-                color: Colors.black,
-                fontWeight: FontWeight.w900,
-              ),
+              style: Theme.of(context).textTheme.headlineSmall!.copyWith(fontSize: 14),
             ),
           ),
           // Use spread operator to include items from widget.item
@@ -129,11 +120,7 @@ class _CuDropState extends State<CuDrop> {
               value: value,
               child: Text(
                 value,
-                style: GoogleFonts.quicksand(
-                  fontSize: 12,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w900,
-                ),
+                style: Theme.of(context).textTheme.headlineSmall!.copyWith(fontSize: 14),
               ),
             );
           }).toList(),
@@ -143,21 +130,6 @@ class _CuDropState extends State<CuDrop> {
   }
 }
 
-class CuText extends StatelessWidget {
-  String title;
-  double? fontSize;
-  CuText(this.title, {this.fontSize = 16,super.key});
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      title,
-      style: GoogleFonts.quicksand(
-        fontSize: fontSize,
-        fontWeight: FontWeight.w800,
-      ),
-    );
-  }
-}
 
 
 

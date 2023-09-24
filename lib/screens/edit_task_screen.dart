@@ -17,7 +17,6 @@ class EditTaskScreen extends StatelessWidget{
     editProvider.titleController = TextEditingController(text:args.title,);
     editProvider.noteController = TextEditingController(text:args.description,);
     return Scaffold(
-      backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.all(15),
         child: SafeArea(
@@ -40,14 +39,12 @@ class EditTaskScreen extends StatelessWidget{
                         child: const Icon(
                           Icons.arrow_back_ios,
                           size: 20,
-                          color: Colors.black,
                         ),
                       ),
                       const Spacer(),
                       const Icon(
                         Icons.account_circle_outlined,
                         size: 30,
-                        color: Colors.black,
                       ),
                     ],
                   ),
@@ -64,8 +61,9 @@ class EditTaskScreen extends StatelessWidget{
                   const SizedBox(
                     height: 20,
                   ),
-                  CuText(
+                  Text(
                     "Title",
+                    style: Theme.of(context).textTheme.headlineSmall,
                   ),
                   const SizedBox(
                     height: 10,
@@ -83,8 +81,9 @@ class EditTaskScreen extends StatelessWidget{
                   const SizedBox(
                     height: 15,
                   ),
-                  CuText(
+                  Text(
                     "Note",
+                    style: Theme.of(context).textTheme.headlineSmall,
                   ),
                   const SizedBox(
                     height: 10,
@@ -102,8 +101,9 @@ class EditTaskScreen extends StatelessWidget{
                   const SizedBox(
                     height: 15,
                   ),
-                  CuText(
+                  Text(
                     "Date",
+                    style: Theme.of(context).textTheme.headlineSmall,
                   ),
                   const SizedBox(
                     height: 10,
@@ -166,8 +166,9 @@ class EditTaskScreen extends StatelessWidget{
                   const SizedBox(
                     height: 15,
                   ),
-                  CuText(
+                  Text(
                     "Remind",
+                    style: Theme.of(context).textTheme.headlineSmall,
                   ),
                   const SizedBox(
                     height: 10,
@@ -182,8 +183,9 @@ class EditTaskScreen extends StatelessWidget{
                   const SizedBox(
                     height: 10,
                   ),
-                  CuText(
+                  Text(
                     "Repeat",
+                    style: Theme.of(context).textTheme.headlineSmall,
                   ),
                   const SizedBox(
                     height: 10,
@@ -204,7 +206,10 @@ class EditTaskScreen extends StatelessWidget{
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          CuText("Color"),
+                          Text(
+                              "Color",
+                            style: Theme.of(context).textTheme.headlineSmall,
+                          ),
                           const SizedBox(
                             height: 10,
                           ),
@@ -248,13 +253,11 @@ class EditTaskScreen extends StatelessWidget{
                           onPressed: () {
                             editProvider.onSaveChangeTap(args.id, args.userId, context , args.startDate,args.endDate,);
                           },
-                          child: Padding(
-                            padding: const EdgeInsets.all(2.0),
+                          child: const Padding(
+                            padding: EdgeInsets.all(2.0),
                             child: Text(
                               "Save Changes",
-                              style: GoogleFonts.quicksand(
-                                fontSize: 18,
-                              ),
+
                             ),
                           ),
                         ),

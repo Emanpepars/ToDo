@@ -23,6 +23,7 @@ class MyThemeData {
       headlineSmall: GoogleFonts.quicksand(
         fontWeight: FontWeight.w900,
         fontSize: 16,
+        color: black,
       ),
       //task title
       bodyLarge: GoogleFonts.poppins(
@@ -79,6 +80,7 @@ class MyThemeData {
       headlineSmall: GoogleFonts.quicksand(
         fontWeight: FontWeight.w900,
         fontSize: 16,
+        color: white,
       ),
       //task title
       bodyLarge: GoogleFonts.poppins(
@@ -90,7 +92,7 @@ class MyThemeData {
       bodySmall: GoogleFonts.roboto(
         fontWeight: FontWeight.normal,
         fontSize: 12,
-        color: white,
+        color: black,
       ),
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(

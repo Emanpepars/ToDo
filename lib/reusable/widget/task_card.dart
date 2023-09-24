@@ -4,9 +4,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:todo/firebase/firebase_functions.dart';
 import 'package:todo/model/task_model.dart';
-import 'package:todo/reusable/widget/cu_text_form_field.dart';
 import 'package:todo/screens/edit_task_screen.dart';
-import 'package:todo/style/my_theme.dart';
+import 'package:todo/style/const.dart';
 
 class TaskCard extends StatefulWidget {
   TaskModel task;
@@ -87,7 +86,7 @@ class _TaskCardState extends State<TaskCard> {
                   borderRadius:
                       BorderRadius.circular(5.0), // Adjust the radius as needed
                   color:
-                      widget.task.state ? MyThemeData.lightTheme.primaryColor : Colors.black,
+                      widget.task.state ? Theme.of(context).primaryColor : Colors.black,
                 ),
                 width: 4,
                 height: MediaQuery.of(context).size.height * .09,
@@ -102,7 +101,7 @@ class _TaskCardState extends State<TaskCard> {
                   children: [
                     Text(
                       widget.task.title,
-                      style: Theme.of(context).textTheme.bodyLarge,
+                      style:  widget.task.state ? Theme.of(context).textTheme.bodyLarge :Theme.of(context).textTheme.bodyLarge!.copyWith(color: black),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
                     ),
@@ -114,20 +113,21 @@ class _TaskCardState extends State<TaskCard> {
                         const Icon(
                           FontAwesomeIcons.clock,
                           size: 10,
+                          color: black,
                         ),
                         const SizedBox(
                           width: 5,
                         ),
-                        CuText(
+                        Text(
                           formattedStartTime,
-                          fontSize: 10,
+                          style: Theme.of(context).textTheme.bodySmall,
                         ),
                         const SizedBox(
                           width: 5,
                         ),
-                        CuText(
+                        Text(
                           formattedEndTime,
-                          fontSize: 10,
+                          style: Theme.of(context).textTheme.bodySmall,
                         ),
                       ],
                     ),
@@ -136,7 +136,7 @@ class _TaskCardState extends State<TaskCard> {
                     ),
                     Text(
                       widget.task.description,
-                      style: Theme.of(context).textTheme.bodySmall,
+                      style:Theme.of(context).textTheme.bodySmall,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
                     ),

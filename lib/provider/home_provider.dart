@@ -8,7 +8,7 @@ class HomeProvider extends ChangeNotifier{
 
   int currentStep = 0;
 
-  int maxStepValue = 0; // Maximum step value
+  int maxStepValue = 0;// Maximum step value
 
   continueStep() {
       currentStep = currentStep + 1; //currentStep+=1;

@@ -40,9 +40,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       initialRoute:
-      initUserProvider.firebaseUser!= null?
-      HomeScreen.routeName
-        :RegisterScreen.routeName ,
+     // initUserProvider.firebaseUser!= null?
+      HomeScreen.routeName,
+       // :RegisterScreen.routeName ,
       routes: {
         SettingsTab.routeName: (context) => const SettingsTab(),
         LoginScreen.routeName: (context) => LoginScreen(),

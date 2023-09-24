@@ -6,8 +6,10 @@ import 'package:provider/provider.dart';
 import 'package:todo/firebase/firebase_functions.dart';
 import 'package:todo/model/task_model.dart';
 import 'package:todo/provider/themeProvider.dart';
+import 'package:todo/reusable/widget/cu_text_form_field.dart';
 import 'package:todo/reusable/widget/task_card.dart';
 import 'package:todo/screens/add_task_screen.dart';
+import 'package:shimmer/shimmer.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -18,13 +20,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   // Create a Stepper widget to order the tasks by timer.
   List<Step> steps = [];
 
   DateTime dateTime = DateTime.now();
 
-  int currentStep=0;
+  int currentStep = 0;
 
   int maxStepValue = 0; // Maximum step value
 
@@ -47,24 +48,28 @@ class _HomeScreenState extends State<HomeScreen> {
               Row(
                 children: [
                   InkWell(
-                    focusColor: Colors.transparent,
-                    hoverColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                    splashColor: Colors.transparent,
-                    onTap: () {
-                      themeProvider.changeTheme(themeProvider.themeMode == ThemeMode.light ? ThemeMode.dark : ThemeMode.light );
-                    },
-                    child: themeProvider.themeMode == ThemeMode.light
-                        ? const ImageIcon(
-                            AssetImage("assets/moon_icon.png"),
-                            size: 20,
-                          )
-                        : const ImageIcon(
-                      AssetImage("assets/sun_icon.png",),
-                      size: 25,
-                      color: Colors.white,
-                    )
-                  ),
+                      focusColor: Colors.transparent,
+                      hoverColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      splashColor: Colors.transparent,
+                      onTap: () {
+                        themeProvider.changeTheme(
+                            themeProvider.themeMode == ThemeMode.light
+                                ? ThemeMode.dark
+                                : ThemeMode.light);
+                      },
+                      child: themeProvider.themeMode == ThemeMode.light
+                          ? const ImageIcon(
+                              AssetImage("assets/moon_icon.png"),
+                              size: 20,
+                            )
+                          : const ImageIcon(
+                              AssetImage(
+                                "assets/sun_icon.png",
+                              ),
+                              size: 25,
+                              color: Colors.white,
+                            )),
                   const Spacer(),
                   const Icon(
                     Icons.account_circle_outlined,
@@ -143,6 +148,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   setState(
                     () {
                       dateTime = date;
+                      steps = [];
+                      currentStep = 0;
+                      maxStepValue = 0;
                     },
                   );
                 },
@@ -158,34 +166,110 @@ class _HomeScreenState extends State<HomeScreen> {
                       return const Text('Something went wrong');
                     }
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(child: CircularProgressIndicator());
+                      return Shimmer.fromColors(
+                          baseColor: Colors.grey.shade300,
+                          highlightColor: Colors.grey.shade100,
+                          enabled: true,
+                          child: SingleChildScrollView(
+                            physics: const NeverScrollableScrollPhysics(),
+                            child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Container(
+                                width: double.infinity,
+                                height: 100.0, // Adjust the height as needed
+                                color: Colors.white,
+                              ),
+                              const SizedBox(height: 16.0),
+                              Container(
+                                width: double.infinity,
+                                height: 20.0, // Adjust the height as needed
+                                color: Colors.white,
+                              ),
+                              const SizedBox(height: 16.0),
+                              Container(
+                                width: double.infinity,
+                                height: 40.0, // Adjust the height as needed
+                                color: Colors.white,
+                              ),
+                              const SizedBox(height: 16.0),
+                              Container(
+                                width: double.infinity,
+                                height: 20.0, // Adjust the height as needed
+                                color: Colors.white,
+                              ),
+                              const SizedBox(height: 16.0),
+                              Container(
+                                width: 200.0, // Adjust the width as needed
+                                height: 20.0, // Adjust the height as needed
+                                color: Colors.white,
+                              ),
+                              const SizedBox(height: 16.0),
+                              Container(
+                                width: double.infinity,
+                                height: 80.0, // Adjust the height as needed
+                                color: Colors.white,
+                              ),
+                              const SizedBox(height: 16.0),
+                              Container(
+                                width: 200.0, // Adjust the width as needed
+                                height: 20.0, // Adjust the height as needed
+                                color: Colors.white,
+                              ),
+                              const SizedBox(height: 16.0),
+                            ],
+                          ),
+                          ));
                     }
 
-                    List<TaskModel> tasks =
-                        snapshot.data?.docs.map((task) => task.data()).toList() ??
-                            [];
+                    List<TaskModel> tasks = snapshot.data?.docs
+                            .map((task) => task.data())
+                            .toList() ??
+                        [];
                     if (tasks.isEmpty) {
-                      return const Center(child: Text("No tasks"));
+                      return Center(
+                        child: Column(
+                          children: [
+                            themeProvider.themeMode == ThemeMode.light
+                                ? Image.asset(
+                                    "assets/empty_task.png",
+                                  )
+                                : Image.asset(
+                                    "assets/empty_task_dk.png",
+                                  ),
+                            CuText(
+                              "Oops! You don't",
+                            ),
+                            CuText("have any to do list today"),
+                          ],
+                        ),
+                      );
                     }
 
                     // Sort the tasks by start date.
                     tasks.sort((a, b) => a.startDate.compareTo(b.startDate));
 
-                    maxStepValue = tasks.length - 1; // Update the maximum step value based on tasks
+                    maxStepValue = tasks.length -
+                        1; // Update the maximum step value based on tasks
                     return Stepper(
                       controlsBuilder: controlBuilders,
                       type: StepperType.vertical, // Set to vertical
-                      currentStep: currentStep, // Set the current step index here
+                      currentStep:
+                          currentStep, // Set the current step index here
                       steps: tasks.map((task) {
                         // Create a Step widget for each task.
                         final formattedTime = DateFormat('h:mm a').format(
-                          DateTime(2023, 1, 1, task.startDate ~/ 60, task.startDate % 60),
+                          DateTime(2023, 1, 1, task.startDate ~/ 60,
+                              task.startDate % 60),
                         );
                         return Step(
                           title: Text(formattedTime),
                           content: TaskCard(task),
                           isActive: task.state,
-                          state: task.state ? StepState.complete : StepState.disabled,
+                          state: task.state
+                              ? StepState.complete
+                              : StepState.disabled,
                         );
                       }).toList(),
                       onStepTapped: onStepTapped,
@@ -201,12 +285,13 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-  continueStep() {
-      setState(() {
-        currentStep = currentStep + 1; //currentStep+=1;
-      });
 
+  continueStep() {
+    setState(() {
+      currentStep = currentStep + 1; //currentStep+=1;
+    });
   }
+
   cancelStep() {
     if (currentStep > 0) {
       setState(() {
@@ -219,11 +304,13 @@ class _HomeScreenState extends State<HomeScreen> {
     //   });
     // }
   }
+
   onStepTapped(int value) {
     setState(() {
       currentStep = value;
     });
   }
+
   Widget controlBuilders(context, details) {
     return Padding(
       padding: const EdgeInsets.all(8.0),

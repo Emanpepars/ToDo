@@ -18,7 +18,6 @@ class TaskModel {
     required this.endDate,
     required this.startDate,
     required this.userId,
-
   });
 
   TaskModel.fromJson(Map<String , dynamic> json)

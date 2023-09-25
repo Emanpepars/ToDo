@@ -2,19 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CuTextField extends StatelessWidget {
-  TextEditingController? controller;
-  String? title;
-  Widget? suffixIcon;
-  String? Function(String?)? validator;
+  final TextEditingController? controller;
+  final String? title;
+  final String? initialValue;
+  final Widget? suffixIcon;
+  final String? Function(String?)? validator;
 
-  CuTextField({super.key, this.controller, this.title , this.suffixIcon , this.validator,});
+  const CuTextField({
+    Key? key,
+    this.controller,
+    this.title,
+    this.suffixIcon,
+    this.validator,
+    this.initialValue,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      initialValue: initialValue,
       validator: validator,
       controller: controller,
       style: Theme.of(context).textTheme.headlineSmall!.copyWith(fontSize: 18),
-      decoration:  InputDecoration(
+      decoration: InputDecoration(
         suffixIcon: suffixIcon,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15),
@@ -24,7 +34,6 @@ class CuTextField extends StatelessWidget {
           fontSize: 14,
           fontWeight: FontWeight.w800,
         ),
-
       ),
     );
   }

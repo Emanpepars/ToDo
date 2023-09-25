@@ -24,8 +24,7 @@ class FireBaseFunctions{
     return getTaskCollection().doc(id).delete();
   }
   static updateTask(String id,TaskModel task){
-    return getTaskCollection().doc(id).update(task.toJson(),
-    );
+    return getTaskCollection().doc(id).update(task.toJson(),);
   }
   static Stream<QuerySnapshot<TaskModel>> getTasksFromFireStore(DateTime dateTime){
     var collection = getTaskCollection();

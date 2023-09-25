@@ -210,10 +210,7 @@ class HomeScreen extends StatelessWidget {
                         ),
                       );
                     }
-
-                    List<TaskModel> tasks = snapshot.data?.docs
-                            .map((task) => task.data())
-                            .toList() ??
+                    List<TaskModel> tasks = snapshot.data?.docs.map((task) => task.data()).toList() ??
                         [];
                     if (tasks.isEmpty) {
                       return Center(
@@ -239,9 +236,7 @@ class HomeScreen extends StatelessWidget {
                         ),
                       );
                     }
-
                     tasks.sort((a, b) => a.startDate.compareTo(b.startDate));
-
                     homeProvider.maxStepValue = tasks.length - 1;
                     return Stepper(
                       controlsBuilder: homeProvider.controlBuilders,

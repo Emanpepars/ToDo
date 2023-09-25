@@ -23,8 +23,7 @@ class _TaskCardState extends State<TaskCard> {
           2023, 1, 1, widget.task.startDate ~/ 60, widget.task.startDate % 60),
     );
     final formattedEndTime = DateFormat('h:mm a').format(
-      DateTime(
-          2023, 1, 1, widget.task.startDate ~/ 60, widget.task.startDate % 60),
+      DateTime(2023, 1, 1, widget.task.endDate ~/ 60, widget.task.endDate % 60),
     );
     return Card(
       shape: OutlineInputBorder(
@@ -54,18 +53,11 @@ class _TaskCardState extends State<TaskCard> {
             SlidableAction(
               autoClose: true,
               onPressed: (context) {
-                Navigator.pushNamed(
-                  context,
-                  EditTaskScreen.routeName,
-                  arguments: TaskModel(
-                    endDate: widget.task.endDate,
-                    startDate: widget.task.startDate,
-                    userId: widget.task.userId,
-                    id: widget.task.id,
-                    title: widget.task.title,
-                    description: widget.task.description,
-                    state: widget.task.state,
-                    date: widget.task.date,
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) {
+                      return EditTaskScreen(widget.task.id);
+                    },
                   ),
                 );
               },
@@ -85,8 +77,9 @@ class _TaskCardState extends State<TaskCard> {
                 decoration: BoxDecoration(
                   borderRadius:
                       BorderRadius.circular(5.0), // Adjust the radius as needed
-                  color:
-                      widget.task.state ? Theme.of(context).primaryColor : Colors.black,
+                  color: widget.task.state
+                      ? Theme.of(context).primaryColor
+                      : Colors.black,
                 ),
                 width: 4,
                 height: MediaQuery.of(context).size.height * .09,
@@ -101,7 +94,12 @@ class _TaskCardState extends State<TaskCard> {
                   children: [
                     Text(
                       widget.task.title,
-                      style:  widget.task.state ? Theme.of(context).textTheme.bodyLarge :Theme.of(context).textTheme.bodyLarge!.copyWith(color: black),
+                      style: widget.task.state
+                          ? Theme.of(context).textTheme.bodyLarge
+                          : Theme.of(context)
+                              .textTheme
+                              .bodyLarge!
+                              .copyWith(color: black),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
                     ),
@@ -136,7 +134,7 @@ class _TaskCardState extends State<TaskCard> {
                     ),
                     Text(
                       widget.task.description,
-                      style:Theme.of(context).textTheme.bodySmall,
+                      style: Theme.of(context).textTheme.bodySmall,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
                     ),
@@ -157,7 +155,8 @@ class _TaskCardState extends State<TaskCard> {
                     )
                   : ElevatedButton(
                       style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(Colors.black),
+                        backgroundColor:
+                            MaterialStateProperty.all<Color>(Colors.black),
                         shape: MaterialStateProperty.all<OutlinedBorder>(
                           RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12.0),

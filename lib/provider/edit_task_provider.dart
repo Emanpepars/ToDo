@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:todo/firebase/firebase_functions.dart';
-import 'package:todo/home_layout/home_layout.dart';
-import 'package:todo/model/task_model.dart';
 
 class EditTaskProvider extends ChangeNotifier{
   TimeOfDay startTime = TimeOfDay.now();
@@ -17,9 +14,10 @@ class EditTaskProvider extends ChangeNotifier{
     Colors.green,
     Colors.blue,
   ];
+  late String initialTitleValue;
 
-  var formKey = GlobalKey<FormState>();
-  TextEditingController titleController = TextEditingController();
+  var editFormKey = GlobalKey<FormState>();
+  TextEditingController titleController = TextEditingController( );
   TextEditingController noteController = TextEditingController();
 
 
@@ -31,8 +29,8 @@ class EditTaskProvider extends ChangeNotifier{
       lastDate: DateTime.now().add(const Duration(days: 360 * 22)),
     );
     if (selectedDate != null) {
-        selected = DateUtils.dateOnly(selectedDate);
-        notifyListeners();
+      selected = DateUtils.dateOnly(selectedDate);
+      notifyListeners();
     }
     notifyListeners();
   }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class AddTaskProvider extends ChangeNotifier{
-  late TimeOfDay endTime; // Declare _endTime as a late variable
-  late TimeOfDay startTime; // Declare _endTime as a late variable
+  TimeOfDay startTime = TimeOfDay.now();
+  TimeOfDay endTime = TimeOfDay.now();
   var selected = DateUtils.dateOnly(
     DateTime.now(),
   );
@@ -27,28 +27,35 @@ class AddTaskProvider extends ChangeNotifier{
       lastDate: DateTime.now().add(const Duration(days: 360 * 22)),
     );
     if (selectedDate != null) {
-        selected = DateUtils.dateOnly(selectedDate);
-        notifyListeners();
+      selected = DateUtils.dateOnly(selectedDate);
+      notifyListeners();
     }
   }
 
-   showStartTimePicker(context) {
+  showStartTimePicker(context) {
     showTimePicker(
       context: context,
       initialTime: TimeOfDay.now(),
     ).then((value) {
-        startTime = value!;
-        notifyListeners();
+      startTime = value!;
+      notifyListeners();
 
     });
   }
-   showEndTimePicker(context) {
+  showEndTimePicker(context) {
     showTimePicker(
       context: context,
       initialTime: TimeOfDay.now(),
     ).then((value) {
-        endTime = value!;
-        notifyListeners();
+      endTime = value!;
+      notifyListeners();
     });
   }
+
+  onCircleTap(index){
+    selectedAvatar =
+        index; // Set the selected index
+    notifyListeners();
+  }
+
 }

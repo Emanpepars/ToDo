@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:todo/firebase/firebase_functions.dart';
+import 'package:todo/home_layout/home_layout.dart';
 import 'package:todo/model/task_model.dart';
 import 'package:todo/provider/edit_task_provider.dart';
 import 'package:todo/reusable/widget/cu_text_form_field.dart';
 
-class EditTaskScreen extends StatelessWidget{
+class EditTaskScreen extends StatelessWidget {
   const EditTaskScreen({Key? key}) : super(key: key);
   static const String routeName = "editTaskScreen";
 
@@ -14,8 +16,8 @@ class EditTaskScreen extends StatelessWidget{
   Widget build(BuildContext context) {
     var args = ModalRoute.of(context)?.settings.arguments as TaskModel;
     var editProvider = Provider.of<EditTaskProvider>(context);
-    editProvider.titleController = TextEditingController(text:args.title,);
-    editProvider.noteController = TextEditingController(text:args.description,);
+    // editProvider.titleController = TextEditingController(text: args.title,);
+    // editProvider.noteController = TextEditingController(text: args.description,);
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(15),
@@ -109,60 +111,60 @@ class EditTaskScreen extends StatelessWidget{
                     height: 10,
                   ),
                   CuTime(
-                      editProvider.selected.toString().substring(0, 10),
+                    editProvider.selected.toString().substring(0, 10),
                     FontAwesomeIcons.solidCalendarDays,
-                    onTap: (){
+                    onTap: () {
                       editProvider.chooseDate(context);
                     },
                   ),
                   const SizedBox(
                     height: 15,
                   ),
-                  // Row(
-                  //   children: [
-                  //     Column(
-                  //       crossAxisAlignment: CrossAxisAlignment.start,
-                  //       children: [
-                  //         CuText(
-                  //           "Start Time",
-                  //           fontSize: 12,
-                  //         ),
-                  //         const SizedBox(
-                  //           height: 10,
-                  //         ),
-                  //         CuTime(
-                  //           "args.startDate.toString()",
-                  //           FontAwesomeIcons.clock,
-                  //           width: MediaQuery.of(context).size.width * .44,
-                  //           height: 50,
-                  //           onTap: editProvider.showStartTimePicker(context,args.startDate,),
-                  //         ),
-                  //       ],
-                  //     ),
-                  //     const SizedBox(
-                  //       width: 16,
-                  //     ),
-                  //     Column(
-                  //       crossAxisAlignment: CrossAxisAlignment.start,
-                  //       children: [
-                  //         CuText(
-                  //           "End Time",
-                  //           fontSize: 12,
-                  //         ),
-                  //         const SizedBox(
-                  //           height: 10,
-                  //         ),
-                  //         CuTime(
-                  //          " args.endDate.toString()",
-                  //           FontAwesomeIcons.clock,
-                  //           width: MediaQuery.of(context).size.width * .44,
-                  //           height: 50,
-                  //           onTap: editProvider.showEndTimePicker(context, args.endDate,),
-                  //         ),
-                  //       ],
-                  //     ),
-                  //   ],
-                  // ),
+                  Row(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Start Time",
+                            style: Theme.of(context).textTheme.headlineSmall,
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          CuTime(
+                            editProvider.startTime.format(context).toString(),
+                            FontAwesomeIcons.clock,
+                            width: MediaQuery.of(context).size.width * .44,
+                            height: 50,
+                            onTap:()=> editProvider.showStartTimePicker(context,),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        width: 16,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "End Time",
+                            style: Theme.of(context).textTheme.headlineSmall,
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          CuTime(
+                            editProvider.endTime.format(context).toString(),
+                            FontAwesomeIcons.clock,
+                            width: MediaQuery.of(context).size.width * .44,
+                            height: 50,
+                            onTap: ()=> editProvider.showEndTimePicker(context,),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                   const SizedBox(
                     height: 15,
                   ),
@@ -200,14 +202,13 @@ class EditTaskScreen extends StatelessWidget{
                   const SizedBox(
                     height: 10,
                   ),
-
                   Row(
                     children: [
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                              "Color",
+                            "Color",
                             style: Theme.of(context).textTheme.headlineSmall,
                           ),
                           const SizedBox(
@@ -223,7 +224,8 @@ class EditTaskScreen extends StatelessWidget{
                                     editProvider.onCircleTap(index);
                                   },
                                   child: CircleAvatar(
-                                    backgroundColor: editProvider.avatarColors[index],
+                                    backgroundColor:
+                                        editProvider.avatarColors[index],
                                     radius: 14.0,
                                     child: Icon(
                                       Icons.check,
@@ -251,13 +253,27 @@ class EditTaskScreen extends StatelessWidget{
                             ),
                           ),
                           onPressed: () {
-                            editProvider.onSaveChangeTap(args.id, args.userId, context , args.startDate,args.endDate,);
+                            if (editProvider.formKey.currentState!.validate()) {
+                              TaskModel task = TaskModel(
+                                id: args.id,
+                                userId: args.userId,
+                                title: editProvider.titleController.text,
+                                description: editProvider.noteController.text,
+                                state: false,
+                                date: editProvider.selected.millisecondsSinceEpoch,
+                                endDate: editProvider.endTime.hour * 60 + editProvider.endTime.minute,     // Convert TimeOfDay to int
+                                startDate: editProvider.startTime.hour * 60 + editProvider.startTime.minute,
+                              );
+                              FireBaseFunctions.updateTask(task.id, task)
+                                  .then(
+                                    (value) => Navigator.pushNamed(context,HomeScreen.routeName),
+                              );
+                            }
                           },
                           child: const Padding(
                             padding: EdgeInsets.all(2.0),
                             child: Text(
                               "Save Changes",
-
                             ),
                           ),
                         ),
@@ -272,5 +288,4 @@ class EditTaskScreen extends StatelessWidget{
       ),
     );
   }
-
 }

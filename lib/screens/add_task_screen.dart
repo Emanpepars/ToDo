@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:todo/firebase/firebase_functions.dart';
+import 'package:todo/home_layout/home_layout.dart';
 import 'package:todo/model/task_model.dart';
 import 'package:todo/provider/add_task_provider.dart';
 import 'package:todo/reusable//widget/cu_text_form_field.dart';
@@ -119,51 +120,51 @@ class AddTaskScreen extends StatelessWidget {
                   const SizedBox(
                     height: 15,
                   ),
-                  // Row(
-                  //   children: [
-                  //     Column(
-                  //       crossAxisAlignment: CrossAxisAlignment.start,
-                  //       children: [
-                  //         Text(
-                  //           "Start Time",
-                  // style: Theme.of(context).textTheme.headlineSmall,
-                  //         ),
-                  //         const SizedBox(
-                  //           height: 10,
-                  //         ),
-                  //         CuTime(
-                  //           addTaskProvider.startTime.format(context).toString(),
-                  //           FontAwesomeIcons.clock,
-                  //           width: MediaQuery.of(context).size.width * .44,
-                  //           height: 50,
-                  //           onTap: addTaskProvider.showStartTimePicker(context),
-                  //         ),
-                  //       ],
-                  //     ),
-                  //     const SizedBox(
-                  //       width: 16,
-                  //     ),
-                  //     Column(
-                  //       crossAxisAlignment: CrossAxisAlignment.start,
-                  //       children: [
-                  //         Text(
-                  //           "End Time",
-                  //          style: Theme.of(context).textTheme.headlineSmall,
-                  //         ),
-                  //         const SizedBox(
-                  //           height: 10,
-                  //         ),
-                  //         CuTime(
-                  //           addTaskProvider.endTime.format(context).toString(),
-                  //           FontAwesomeIcons.clock,
-                  //           width: MediaQuery.of(context).size.width * .44,
-                  //           height: 50,
-                  //           onTap: addTaskProvider.showEndTimePicker(context),
-                  //         ),
-                  //       ],
-                  //     ),
-                  //   ],
-                  // ),
+                  Row(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Start Time",
+                            style: Theme.of(context).textTheme.headlineSmall,
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          CuTime(
+                            addTaskProvider.startTime.format(context).toString(),
+                            FontAwesomeIcons.clock,
+                            width: MediaQuery.of(context).size.width * .44,
+                            height: 50,
+                            onTap:()=> addTaskProvider.showStartTimePicker(context),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        width: 16,
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "End Time",
+                            style: Theme.of(context).textTheme.headlineSmall,
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          CuTime(
+                            addTaskProvider.endTime.format(context).toString(),
+                            FontAwesomeIcons.clock,
+                            width: MediaQuery.of(context).size.width * .44,
+                            height: 50,
+                            onTap: ()=> addTaskProvider.showEndTimePicker(context),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                   const SizedBox(
                     height: 15,
                   ),
@@ -220,9 +221,7 @@ class AddTaskScreen extends StatelessWidget {
                                 padding: const EdgeInsets.only(right: 8.0),
                                 child: GestureDetector(
                                   onTap: () {
-                                      addTaskProvider.selectedAvatar =
-                                          index; // Set the selected index
-
+                                    addTaskProvider.onCircleTap(index);
                                   },
                                   child: CircleAvatar(
                                     backgroundColor: addTaskProvider.avatarColors[index],
@@ -264,7 +263,7 @@ class AddTaskScreen extends StatelessWidget {
                                 startDate: addTaskProvider.startTime.hour * 60 + addTaskProvider.startTime.minute,
                               );
                               FireBaseFunctions.addTask(task).then(
-                                    (value) => Navigator.pop(context),
+                                    (value) => Navigator.pushNamed(context,HomeScreen.routeName),
                               );
                             }
                             },

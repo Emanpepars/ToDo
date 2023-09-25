@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:todo/firebase/firebase_functions.dart';
+import 'package:todo/home_layout/home_layout.dart';
 import 'package:todo/model/task_model.dart';
 
 class EditTaskProvider extends ChangeNotifier{
+  TimeOfDay startTime = TimeOfDay.now();
+  TimeOfDay endTime = TimeOfDay.now();
   var selected = DateUtils.dateOnly(
     DateTime.now(),
   );
@@ -33,52 +36,31 @@ class EditTaskProvider extends ChangeNotifier{
     }
     notifyListeners();
   }
+  showStartTimePicker(context) {
+    showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+    ).then((value) {
+      startTime = value!;
+      notifyListeners();
 
-   void showStartTimePicker(context,startTime) {
+    });
+  }
+  showEndTimePicker(context) {
     showTimePicker(
       context: context,
       initialTime: TimeOfDay.now(),
     ).then((value) {
-        startTime = value!;
-        Navigator.pop(context);
+      endTime = value!;
+      notifyListeners();
     });
-    notifyListeners();
-   }
-   void showEndTimePicker(context,endTime) {
-    showTimePicker(
-      context: context,
-      initialTime: TimeOfDay.now(),
-    ).then((value) {
-        endTime = value!;
-        Navigator.pop(context);
-    });
-    notifyListeners();
-   }
+  }
 
   onCircleTap(index){
     selectedAvatar =
         index; // Set the selected index
     notifyListeners();
   }
-  onSaveChangeTap(argsId , argsUserId , context,startTime , endTime){
-    if (formKey.currentState!.validate()) {
-      TaskModel task = TaskModel(
-        id: argsId,
-        title: titleController.text,
-        description: noteController.text,
-        state: false,
-        date: selected.millisecondsSinceEpoch,
-        endDate: endTime.hour * 60 + endTime.minute,     // Convert TimeOfDay to int
-        startDate: startTime.hour * 60 + startTime.minute,
-        userId: argsUserId,
-      );
-      FireBaseFunctions.updateTask(task.id, task)
-          .then(
-            (value) => Navigator.pop(context),
-      );
-      notifyListeners();
-    }
-    notifyListeners();
-  }
+
 
 }

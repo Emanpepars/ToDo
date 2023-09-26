@@ -37,10 +37,12 @@ void main() async {
         ),
         ChangeNotifierProvider<AddTaskProvider>(
           create: (context) {
-            AddTaskProvider addTaskProvider =AddTaskProvider();
+            AddTaskProvider addTaskProvider = AddTaskProvider();
             var now = DateTime.now();
-            addTaskProvider.endTime = TimeOfDay(hour: now.hour, minute: now.minute);
-            addTaskProvider.startTime = TimeOfDay(hour: now.hour, minute: now.minute);
+            addTaskProvider.endTime =
+                TimeOfDay(hour: now.hour, minute: now.minute);
+            addTaskProvider.startTime =
+                TimeOfDay(hour: now.hour, minute: now.minute);
 
             return AddTaskProvider();
           },
@@ -62,14 +64,14 @@ class MyApp extends StatelessWidget {
     var initUserProvider = Provider.of<InitUserProvider>(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute:
-      initUserProvider.firebaseUser!= null?
-      HomeScreen.routeName :RegisterScreen.routeName ,
+      initialRoute: initUserProvider.firebaseUser != null
+          ? HomeScreen.routeName
+          : LoginScreen.routeName,
       routes: {
         SettingsTab.routeName: (context) => const SettingsTab(),
         LoginScreen.routeName: (context) => LoginScreen(),
-        RegisterScreen.routeName: (context) => RegisterScreen(),
-        HomeScreen.routeName: (context) =>  const HomeScreen(),
+        RegisterScreen.routeName: (context) => const RegisterScreen(),
+        HomeScreen.routeName: (context) => const HomeScreen(),
         AddTaskScreen.routeName: (context) => const AddTaskScreen(),
       },
       theme: MyThemeData.lightTheme,

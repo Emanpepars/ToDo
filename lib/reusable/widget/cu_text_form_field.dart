@@ -141,4 +141,43 @@ class _CuDropState extends State<CuDrop> {
 
 
 
+class CuRegisterTextField extends StatelessWidget {
+  bool obscureText;
+  String? Function(String?)? validator;
+  TextEditingController? controller;
+  String? labelText;
+  Widget? suffixIcon;
+  TextInputAction? textInputAction;
+  CuRegisterTextField({super.key,this.validator,this.suffixIcon,this.controller,this.labelText,this.obscureText =false ,this.textInputAction});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.grey,
+        ),
+        borderRadius: BorderRadius.circular(15),
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: TextFormField(
+        textInputAction: textInputAction,
+        obscureText: obscureText,
+        validator: validator,
+        style: Theme.of(context).textTheme.headlineSmall!.copyWith(fontSize: 18,fontWeight: FontWeight.normal),
+        controller: controller,
+        decoration: InputDecoration(
+          enabledBorder: const UnderlineInputBorder(
+            borderSide: BorderSide.none,
+          ),
+          focusedBorder: const UnderlineInputBorder(
+            borderSide: BorderSide.none,
+          ),
+          labelText: labelText,
+          suffixIcon: suffixIcon,
+        ),
+      ),
+    );
+  }
+}
 

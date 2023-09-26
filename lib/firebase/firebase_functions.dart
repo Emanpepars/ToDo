@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:todo/model/UserModel.dart';
 import 'package:todo/model/task_model.dart';
+import 'package:todo/model/user_model.dart';
 
 class FireBaseFunctions{
 

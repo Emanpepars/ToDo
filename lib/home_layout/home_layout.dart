@@ -1,4 +1,5 @@
 import 'package:date_picker_timeline/date_picker_widget.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -6,11 +7,13 @@ import 'package:provider/provider.dart';
 import 'package:todo/firebase/firebase_functions.dart';
 import 'package:todo/model/task_model.dart';
 import 'package:todo/provider/home_provider.dart';
+import 'package:todo/provider/init_user_provider.dart';
 import 'package:todo/provider/themeProvider.dart';
 import 'package:todo/reusable/widget/cu_container_shimmer.dart';
 import 'package:todo/reusable/widget/task_card.dart';
 import 'package:todo/screens/add_task_screen.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:todo/screens/login_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   static const String routeName = "home screen";
@@ -21,6 +24,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var themeProvider = Provider.of<ThemeProvider>(context);
     var homeProvider = Provider.of<HomeProvider>(context);
+    var initUser = Provider.of<InitUserProvider>(context);
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(15),
@@ -54,9 +58,38 @@ class HomeScreen extends StatelessWidget {
                           ),
                   ),
                   const Spacer(),
-                  const Icon(
-                    Icons.account_circle_outlined,
-                    size: 35,
+                  DropdownButtonHideUnderline(
+                    child: DropdownButton2<MenuItem>( // Specify the type for DropdownButton2
+                      customButton: const Icon(
+                        Icons.account_circle_outlined,
+                        size: 35,
+                      ),
+                      items: [
+                        DropdownMenuItem<MenuItem>(
+                          value: MenuItems.logout,
+                          child: MenuItems.buildItem(MenuItems.logout),
+                        ),
+                      ],
+                      onChanged: (value) {
+                        MenuItems.onChanged(context, value! , (){
+                          initUser.signOut();
+                          Navigator.pushNamed(context,LoginScreen.routeName);
+                        });
+                      },
+                      dropdownStyleData: DropdownStyleData(
+                        width: 140,
+                        padding: const EdgeInsets.symmetric(vertical: 6),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(4),
+                          color:
+                          Theme.of(context).brightness == Brightness.light ? Colors.black : Colors.white,
+                        ),
+                        offset: const Offset(0, 8),
+                      ),
+                      menuItemStyleData: const MenuItemStyleData(
+                        padding: EdgeInsets.only(left: 16, right: 16),
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -268,5 +301,49 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+}
+
+
+class MenuItem {
+  const MenuItem({
+    required this.text,
+    required this.icon,
+  });
+
+  final String text;
+  final IconData icon;
+}
+
+class MenuItems {
+  static const logout = MenuItem(text: 'Logout', icon: Icons.logout);
+
+  static Widget buildItem(MenuItem item) {
+    return Row(
+      children: [
+        Icon(item.icon, color: Colors.white, size: 22),
+        const SizedBox(
+          width: 10,
+        ),
+        Expanded(
+          child: Text(
+            item.text,
+            style: const TextStyle(
+              color: Colors.white,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  static void onChanged(BuildContext context, MenuItem item ,Function toDo) {
+    switch (item) {
+      case MenuItems.logout:
+        toDo();
+        print('hi');
+        break;
+    }
   }
 }

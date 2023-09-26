@@ -169,23 +169,6 @@ class AddTaskScreen extends StatelessWidget {
                     height: 15,
                   ),
                   Text(
-                    "Remind",
-                    style: Theme.of(context).textTheme.headlineSmall,
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  CuDrop(
-                    item: const [
-                      "daily",
-                      "weakly",
-                      "monthly",
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Text(
                     "Repeat",
                     style: Theme.of(context).textTheme.headlineSmall,
                   ),

@@ -71,9 +71,9 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ],
                       onChanged: (value) {
-                        MenuItems.onChanged(context, value! , (){
-                          initUser.signOut();
-                          Navigator.pushNamed(context,LoginScreen.routeName);
+                        MenuItems.onChanged(context, value!, () {
+                          Navigator.pushNamed(context, LoginScreen.routeName);
+                           initUser.signOut();
                         });
                       },
                       dropdownStyleData: DropdownStyleData(

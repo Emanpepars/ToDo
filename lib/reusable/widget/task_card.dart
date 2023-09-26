@@ -8,8 +8,8 @@ import 'package:todo/screens/edit_task_screen.dart';
 import 'package:todo/style/const.dart';
 
 class TaskCard extends StatefulWidget {
-  TaskModel task;
-  TaskCard(this.task, {super.key});
+  final TaskModel task;
+  const TaskCard(this.task, {super.key});
 
   @override
   State<TaskCard> createState() => _TaskCardState();
@@ -142,7 +142,7 @@ class _TaskCardState extends State<TaskCard> {
                 ),
               ),
               // const Spacer(),
-              SizedBox(
+              const SizedBox(
                 width: 5,
               ),
               widget.task.state

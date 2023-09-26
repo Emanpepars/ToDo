@@ -164,8 +164,8 @@ class HomeScreen extends StatelessWidget {
                                 ? Colors.grey.shade100
                                 : Colors.grey.shade800,
                         enabled: true,
-                        child: SingleChildScrollView(
-                          physics: const NeverScrollableScrollPhysics(),
+                        child: const SingleChildScrollView(
+                          physics: NeverScrollableScrollPhysics(),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisSize: MainAxisSize.max,
@@ -174,37 +174,37 @@ class HomeScreen extends StatelessWidget {
                                 width: double.infinity,
                                 height: 100.0,
                               ),
-                              const SizedBox(height: 16.0),
+                              SizedBox(height: 16.0),
                               CuContainerShimmer(
                                 width: double.infinity,
                                 height: 20.0,
                               ),
-                              const SizedBox(height: 16.0),
+                              SizedBox(height: 16.0),
                               CuContainerShimmer(
                                 width: double.infinity,
                                 height: 40.0,
                               ),
-                              const SizedBox(height: 16.0),
+                              SizedBox(height: 16.0),
                               CuContainerShimmer(
                                 width: double.infinity,
                                 height: 20.0,
                               ),
-                              const SizedBox(height: 16.0),
+                              SizedBox(height: 16.0),
                               CuContainerShimmer(
                                 width: 200,
                                 height: 20.0,
                               ),
-                              const SizedBox(height: 16.0),
+                              SizedBox(height: 16.0),
                               CuContainerShimmer(
                                 width: double.infinity,
                                 height: 80.0,
                               ),
-                              const SizedBox(height: 16.0),
+                              SizedBox(height: 16.0),
                               CuContainerShimmer(
                                 width: 200,
                                 height: 20.0,
                               ),
-                              const SizedBox(height: 16.0),
+                              SizedBox(height: 16.0),
                             ],
                           ),
                         ),

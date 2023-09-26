@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class EditTaskProvider extends ChangeNotifier{
+class EditTaskProvider extends ChangeNotifier {
   TimeOfDay startTime = TimeOfDay.now();
   TimeOfDay endTime = TimeOfDay.now();
   var selected = DateUtils.dateOnly(
@@ -8,18 +8,15 @@ class EditTaskProvider extends ChangeNotifier{
   );
   int selectedAvatar = 0; // Index of the selected avatar
 
-  // List of avatar colors
   final List<Color> avatarColors = [
     Colors.red,
     Colors.green,
     Colors.blue,
-  ];
+  ];  // List of avatar colors
+
   late String initialTitleValue;
 
   var editFormKey = GlobalKey<FormState>();
-  TextEditingController titleController = TextEditingController( );
-  TextEditingController noteController = TextEditingController();
-
 
   void chooseDate(context) async {
     DateTime? selectedDate = await showDatePicker(
@@ -34,31 +31,29 @@ class EditTaskProvider extends ChangeNotifier{
     }
     notifyListeners();
   }
-  showStartTimePicker(context) {
+
+  showStartTimePicker(context, startDate) {
     showTimePicker(
       context: context,
-      initialTime: TimeOfDay.now(),
+      initialTime: startDate,
     ).then((value) {
       startTime = value!;
       notifyListeners();
-
     });
   }
-  showEndTimePicker(context) {
+
+  showEndTimePicker(context, endDate) {
     showTimePicker(
       context: context,
-      initialTime: TimeOfDay.now(),
+      initialTime: endDate,
     ).then((value) {
       endTime = value!;
       notifyListeners();
     });
   }
 
-  onCircleTap(index){
-    selectedAvatar =
-        index; // Set the selected index
+  onCircleTap(index) {
+    selectedAvatar = index; // Set the selected index
     notifyListeners();
   }
-
-
 }

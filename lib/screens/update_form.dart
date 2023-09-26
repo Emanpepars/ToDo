@@ -3,14 +3,13 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:todo/firebase/firebase_functions.dart';
-import 'package:todo/home_layout/home_layout.dart';
 import 'package:todo/model/task_model.dart';
 import 'package:todo/provider/edit_task_provider.dart';
 import 'package:todo/reusable/widget/cu_text_form_field.dart';
 
 class UpdateForm extends StatefulWidget {
-  UpdateForm({super.key, required this.taskModel});
-  TaskModel taskModel;
+  const UpdateForm({super.key, required this.taskModel});
+  final TaskModel taskModel;
   @override
   State<UpdateForm> createState() => _UpdateFormState();
 }
@@ -19,12 +18,16 @@ class _UpdateFormState extends State<UpdateForm> {
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
   late final String taskId;
+  late final TimeOfDay startDate;
+  late final TimeOfDay endDate;
 
   @override
   void initState() {
     titleController.text = widget.taskModel.title;
     descriptionController.text = widget.taskModel.description;
     taskId = widget.taskModel.id;
+    startDate =  TimeOfDay(hour: widget.taskModel.startDate ~/60, minute: widget.taskModel.startDate %60);
+    endDate =  TimeOfDay(hour: widget.taskModel.endDate ~/60, minute: widget.taskModel.endDate %60);
     super.initState();
   }
 
@@ -148,7 +151,7 @@ class _UpdateFormState extends State<UpdateForm> {
                             width: MediaQuery.of(context).size.width * .44,
                             height: 50,
                             onTap: () => editProvider.showStartTimePicker(
-                              context,
+                              context, startDate,
                             ),
                           ),
                         ],
@@ -172,7 +175,7 @@ class _UpdateFormState extends State<UpdateForm> {
                             width: MediaQuery.of(context).size.width * .44,
                             height: 50,
                             onTap: () => editProvider.showEndTimePicker(
-                              context,
+                              context,endDate,
                             ),
                           ),
                         ],
@@ -279,7 +282,7 @@ class _UpdateFormState extends State<UpdateForm> {
                             );
                             FireBaseFunctions.updateTask(taskId, task)
                                 .then(
-                                  (value) => Navigator.pushNamed(context,HomeScreen.routeName),
+                                  (value) => Navigator.pop(context,),
                             );
                           },
                           child: const Padding(

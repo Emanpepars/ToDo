@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 class CuContainerShimmer extends StatelessWidget {
 
-  double height;
-  double width;
+ final double height;
+  final double width;
 
-  CuContainerShimmer({super.key, required this.width,required this.height});
+  const CuContainerShimmer({super.key, required this.width,required this.height});
   @override
   Widget build(BuildContext context) {
     return Container(

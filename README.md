@@ -5,7 +5,7 @@
 </p>
 
   <h1>To Do App</h1>
-  <p>I've developed this app using Flutter, seamlessly integrating APIs to deliver the latest news at your fingertips. The theming brings a modern and engaging look to the app. <a href="https://www.linkedin.com/posts/eman-pe-pars-26293a220_flutter-firebase-mobileapp-activity-7112754427941302272-91Xx?utm_source=share&utm_medium=member_desktop">Demo</a></p>
+  <p><a href="https://www.linkedin.com/posts/eman-pe-pars-26293a220_flutter-firebase-mobileapp-activity-7112754427941302272-91Xx?utm_source=share&utm_medium=member_desktop">Demo</a></p>
 
 
 <img align='right' src="http://cdn.lowgif.com/small/9cb12f51dffbaaa6-character-typing-by-vincent-mokuenko-dribbble.gif" width="250" height="210">
